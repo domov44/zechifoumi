@@ -1,0 +1,11 @@
+Au submit du form si le fichier dossier n'existe pas :
+Créer le fichier dossier storage/data.json
+Dedans créer 3 clés : le pseudo, le score, et les winstreaks
+Sinon rien 
+
+Si le fichier existe :
+importer les informations stockées dans la Session php 
+ok 
+
+Vérifier les données json pour voir si le pseudo ne fait pas partie du json : 
+si oui, créer une nouvelle ligne dans le array

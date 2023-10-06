@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Dela Gothic One';
+    src: url('DelaGothicOne.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cabin';
+    src: url('Cabin.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

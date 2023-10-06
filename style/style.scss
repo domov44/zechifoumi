@@ -1,0 +1,237 @@
+* {
+    box-sizing: border-box;
+    font-family: "Cabin";
+}
+
+:root {
+    --bg-color: #131014;
+    --secondary-bg-color: #010A04;
+    --main-color: #F8046B;
+    --secondary-color: #8E0D53;
+    --paragraph: #D898DB;
+    --color-title: #DF95D4;
+}
+
+::selection {
+    background: var(--main-color);
+    color: var(--secondary-bg-color);
+}
+
+
+p {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.paragraph {
+    margin: 0px 0px 20px 0px;
+}
+
+body {
+    background: var(--bg-color);
+    margin: 0;
+    color: var(--paragraph);
+
+    .contenu {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+
+        .title-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+
+            .icon {
+                height: 35px;
+                animation: linear infinite entry-icon 5s
+            }
+
+            @keyframes entry-icon {
+                from {
+                    transform: rotate(0deg);
+                }
+
+                to {
+                    transform: rotate(360deg);
+                }
+
+            }
+        }
+
+        .chifoumi-container {
+            padding: 30px;
+            background: var(--secondary-bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            max-width: 800px;
+            border: solid 2px var(--secondary-color);
+            border-radius: 35px;
+        }
+
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        .input-container{
+            display: flex;
+
+            .input-text {
+                width: 100%;
+                font-size: 20px;
+                background: var(--bg-color);
+                border: 1px solid var(--bg-color);
+                border-radius: 50px;
+                padding: 8px 12px;
+                color: var(--paragraph);
+                outline: none;
+                transition: border-color 0.1s ease;
+            }
+            
+            .input-text:focus {
+                border-color: var(--main-color);
+            }            
+        }
+
+        .button-container{
+            display: flex;
+            flex-direction: row;
+            gap: 15px;
+        }
+    }
+}
+
+.title {
+    margin: 0;
+    font-family: 'Dela Gothic One', sans-serif;
+}
+
+h1 {
+    font-size: 35px;
+}
+
+h2 {
+    font-size: 25px;
+}
+
+
+
+.win,
+.loose,
+.egalite {
+    margin-top: 15px;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 8px 16px;
+    width: fit-content;
+    margin-bottom: 30px;
+}
+
+.win {
+    border-color: rgb(80, 227, 194);
+    color: rgb(80, 227, 194);
+    background: rgba(80, 227, 194, 0.1);
+    margin-bottom: 50px;
+}
+
+.loose {
+    border-color: rgb(255, 109, 116);
+    color: rgb(255, 109, 116);
+    background: rgba(250, 179, 169, 0.1);
+}
+
+.egalite {
+    border-color: white;
+    color: white;
+    background: rgba(250, 179, 169, 0.1);
+}
+
+.button {
+    background: var(--main-color);
+    color: var(--secondary-bg-color);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0px 5px var(--secondary-color);
+    padding: 8px 14px;
+    transition: 0.15s ease-in-out;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 20px;
+    width: 100%;
+
+    &:hover {
+        box-shadow: 0px 4px var(--secondary-color);
+        transform: translate(0px, 1px);
+    }
+
+    &:active {
+        box-shadow: 0px 0px var(--secondary-color);
+        transform: translate(0px, 5px);
+    }
+}
+
+.illustration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    #lottie {
+        width: 30%;
+    }
+}
+
+.interaction {
+    padding: 8px 12px;
+    border-radius: 5px;
+    position: fixed;
+    top: 30px;
+    right: 30px;
+
+    .winstreak {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        text-align: center;
+        visibility: hidden;
+        color:var(--secondary-bg-color);
+        background: var(--main-color);
+        padding: 5px 8px;
+        border-radius: 5px;
+        font-family: 'Dela Gothic One', sans-serif;
+    }
+
+
+    .winstreak.visible {
+        visibility: visible;
+        animation: bounce infinite alternate 0.5s;
+    }
+
+    .scoring {
+        width: fit-content;
+        padding: 8px 12px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        font-family: 'Dela Gothic One', sans-serif;
+    }
+}
+
+@keyframes bounce {
+    from {
+        transform: scale(1.05);
+    }
+
+    to {
+        transform: scale(0.95);
+    }
+}
