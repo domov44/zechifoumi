@@ -11,19 +11,22 @@ if ($UserScore > $IAscore) {
 } else {
     $classeCSS = 'egalite';
 }
+
+$game = new GameInstance();
 ?>
 
 <div class="interaction">
-    <p><?php if (isset($_SESSION["pseudo"])) {
-            echo "Player : " . $_SESSION["pseudo"];
-        }; ?></p>
+    <a class="lien" href="leaderboard.php">
+        <?php
+        $playerRank = $game->getPlayerRank($_SESSION["pseudo"]);
+        if ($playerRank !== null) {
+            echo  $_SESSION["pseudo"]. " " . "#" . $playerRank ;
+        }
+        ?>
+    </a>
     <p class="scoring <?php echo isset($classeCSS) ? $classeCSS : 'egalite'; ?>">Score : <?php echo $_SESSION['score']['user'] ?> - <?php echo $_SESSION['score']['ia'] ?></p>
-    <p class="
-    <?php echo isset($_SESSION['winStreak'])
-        &&
-        $_SESSION['winStreak'] > 1 ? 'winstreak visible' : 'winstreak';
-    ?>
-    ">🔥<?php echo isset($_SESSION['winStreak']) ? $_SESSION['winStreak'] : 0; ?> winstreak🔥
+    </p>
+    <p class="<?php echo isset($_SESSION['winStreak']) && $_SESSION['winStreak'] > 1 ? 'winstreak visible' : 'winstreak'; ?>">🔥<?php echo isset($_SESSION['winStreak']) ? $_SESSION['winStreak'] : 0; ?> winstreak🔥
     </p>
 
     <!-- <select class="selectmode" name="selector" id="selectmode">

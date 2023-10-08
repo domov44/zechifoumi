@@ -1,11 +1,60 @@
-Au submit du form si le fichier dossier n'existe pas :
-Créer le fichier dossier storage/data.json
-Dedans créer 3 clés : le pseudo, le score, et les winstreaks
-Sinon rien 
+Parcourir le .json
+Cibler la clé bestwinstreak parmi toute la BDD
+Classer par ordre décroissant les clés bestwinstreak
+Récupérer la clé pseudo relative à chaque clé bestwinstreak
+Associer le pseudo à la clé bestwinstreak relative
+Afficher le classement dans l'ordre avec le rank, le pseudo et le meilleur winstreak relatif
 
-Si le fichier existe :
-importer les informations stockées dans la Session php 
-ok 
+pseudo code ->
 
-Vérifier les données json pour voir si le pseudo ne fait pas partie du json : 
-si oui, créer une nouvelle ligne dans le array
+function {
+$value['pseudo']['bestWinstreak']
+return 
+echo '#' . $variablePlace . $pseudo associé 'avec' 
+}
+
+
+$filename = "storage/data.json";
+    
+        if (file_exists($filename)) {
+            $content = file_get_contents($filename);
+            $data = json_decode($content, true);
+        } else {
+            $data = array();
+        }
+
+        $leaderboard = array();
+    
+        foreach ($data as $key => $value) {
+            if (isset($value['bestWinstreak'])) {
+                $leaderboard[] = array(
+                    'rank' => count($leaderboard) + 1,
+                    'pseudo' => $value['pseudo'],
+                    'bestWinstreak' => $value['bestWinstreak']
+                );
+            }
+        }
+
+        usort($leaderboard, function ($a, $b) {
+            return $b['bestWinstreak'] - $a['bestWinstreak'];
+        });
+    }
+    
+    public function getPlayerRank($pseudo) {
+        // Assurez-vous que le leaderboard est disponible dans $_SESSION
+        if (isset($_SESSION['leaderboard'])) {
+            $leaderboard = $_SESSION['leaderboard'];
+            
+            // Recherche de la position du joueur en fonction de son pseudo
+            $playerRank = 0;
+            foreach ($leaderboard as $rankedPlayer) {
+                $playerRank++;
+                if ($rankedPlayer['pseudo'] === $pseudo) {
+                    return $playerRank;
+                }
+            }
+        }
+        
+        // Le joueur n'a pas de rang s'il n'est pas dans le leaderboard
+        return null;
+    }

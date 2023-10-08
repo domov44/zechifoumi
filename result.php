@@ -17,8 +17,8 @@
     session_start();
     require_once 'class/GameInstance.php';
     $game = new GameInstance();
-    $game->play($_POST["submit"]);
     $game->register($_POST["pseudo"]);
+    $game->play($_POST["submit"]);
     ?>
     <main class="contenu">
         <section class="container">

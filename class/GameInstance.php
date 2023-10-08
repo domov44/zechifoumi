@@ -18,6 +18,13 @@ class GameInstance
         $this->choices = array($choice1, $choice2, $choice3);
     }
 
+    
+    public function register($pseudo)
+    {
+        $_SESSION['pseudo'] = $pseudo;
+        $this->username = $pseudo;
+    }
+
     public function play($userchoice)
     {
         $this->startChifoumi();
@@ -33,6 +40,7 @@ class GameInstance
         }
 
         $filename = "storage/data.json";
+        $pseudo = $_SESSION["pseudo"];
 
         if (file_exists($filename)) {
             $content = file_get_contents($filename);
@@ -41,15 +49,16 @@ class GameInstance
             $contentd = array();
         }
 
-        $pseudo = $_SESSION["pseudo"];
         $found = false;
+        $bestwinstreak = 0;
 
         foreach ($contentd as &$value) {
             if ($value["pseudo"] === $pseudo) {
                 $value['score'] = $_SESSION['score']['user'] . "-" . $_SESSION['score']['ia'];
                 $value['winstreak'] = $_SESSION['winStreak'];
+                $value['bestWinstreak'] = max($value['bestWinstreak'], $_SESSION['winStreak']);
                 $found = true;
-                break; 
+                break;
             }
         }
 
@@ -57,18 +66,61 @@ class GameInstance
             $newData = array(
                 "pseudo" => $pseudo,
                 "score" => $_SESSION['score']['user'] . "-" . $_SESSION['score']['ia'],
-                "winstreak" => $_SESSION['winStreak']
+                "winstreak" => $_SESSION['winStreak'],
+                "bestWinstreak" => $bestwinstreak
             );
             $contentd[] = $newData;
         }
 
+
         file_put_contents($filename, json_encode($contentd));
     }
 
-    public function register($pseudo)
-    {
-        $_SESSION['pseudo'] = $pseudo;
-        $this->username = $pseudo;
+    public function getLeaderboard() {
+        $filename = "storage/data.json";
+
+        if (file_exists($filename)) {
+            $content = file_get_contents($filename);
+            $data = json_decode($content, true);
+        } else {
+            $data = array();
+        }
+
+        $leaderboard = array();
+
+        foreach ($data as $key => $value) {
+            if (isset($value['bestWinstreak'])) {
+                $leaderboard[] = array(
+                    'rank' => 0, 
+                    'pseudo' => $value['pseudo'],
+                    'bestWinstreak' => $value['bestWinstreak']
+                );
+            }
+        }
+
+        usort($leaderboard, function ($a, $b) {
+            return $b['bestWinstreak'] - $a['bestWinstreak'];
+        });
+
+        $rank = 1;
+        foreach ($leaderboard as &$rankedPlayer) {
+            $rankedPlayer['rank'] = $rank;
+            $rank++;
+        }
+
+        return $leaderboard;
+    }
+
+    public function getPlayerRank($pseudo) {
+        $leaderboard = $this->getLeaderboard();
+        
+        foreach ($leaderboard as $rankedPlayer) {
+            if ($rankedPlayer['pseudo'] === $pseudo) {
+                return $rankedPlayer['rank'];
+            }
+        }
+        
+        return null;
     }
 
     function compareChoice($valueComputerChoice, $userchoice, $nemesisComputer)
