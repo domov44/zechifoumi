@@ -18,7 +18,7 @@ class GameInstance
         $this->choices = array($choice1, $choice2, $choice3);
     }
 
-    
+
     public function register($pseudo)
     {
         $_SESSION['pseudo'] = $pseudo;
@@ -34,7 +34,11 @@ class GameInstance
         $nemesisComputer = $computerChoice->nemesisValue;
 
         $this->result = $this->compareChoice($this->valueComputerChoice, $userchoice, $nemesisComputer);
+    }
 
+
+    public function createJsonDB()
+    {
         if (!file_exists("storage")) {
             mkdir("storage", 0777, true);
         }
@@ -76,7 +80,8 @@ class GameInstance
         file_put_contents($filename, json_encode($contentd));
     }
 
-    public function getLeaderboard() {
+    public function getLeaderboard()
+    {
         $filename = "storage/data.json";
 
         if (file_exists($filename)) {
@@ -91,7 +96,7 @@ class GameInstance
         foreach ($data as $key => $value) {
             if (isset($value['bestWinstreak'])) {
                 $leaderboard[] = array(
-                    'rank' => 0, 
+                    'rank' => 0,
                     'pseudo' => $value['pseudo'],
                     'bestWinstreak' => $value['bestWinstreak']
                 );
@@ -111,15 +116,16 @@ class GameInstance
         return $leaderboard;
     }
 
-    public function getPlayerRank($pseudo) {
+    public function getPlayerRank($pseudo)
+    {
         $leaderboard = $this->getLeaderboard();
-        
+
         foreach ($leaderboard as $rankedPlayer) {
             if ($rankedPlayer['pseudo'] === $pseudo) {
                 return $rankedPlayer['rank'];
             }
         }
-        
+
         return null;
     }
 

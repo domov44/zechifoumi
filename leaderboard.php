@@ -59,9 +59,10 @@ $leaderboard = $game->getLeaderboard();
         include('includes/footer.php');
         ?>
         <?php
-        include('includes/score.php');
+        include('includes/header.php');
         ?>
     </main>
+    <script src="animation/logo/logo.js"></script>
 </body>
 
 </html>

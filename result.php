@@ -8,6 +8,7 @@
     <link href="style/style.css" rel="stylesheet" />
     <link href="font/font.css" rel="stylesheet" />
     <link rel="icon" type="image/svg" href="animation\ventilateur.svg" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.3/lottie.min.js"></script>
     <title>Result</title>
 </head>
 
@@ -53,7 +54,20 @@
                         echo $game->valueComputerChoice;
                         ?>
                     </p>
-                    <button onclick="window.location.href='index.php';" class="button full-width">Restart</button>
+                    <form class="form" action="result.php" method="post">
+                        <div class="input-container">
+                            <?php
+                            echo '<input class="input-text" type="text" value="' . $game->username . '" name="pseudo" placeholder="Your pseudo" minlength="2" maxlength="10" required>';
+                            ?>
+                        </div>
+                        <div class="button-container">
+                            <?php
+                            foreach ($game->choices as $choice) {
+                                echo '<input type="submit" name="submit" value="' . $choice->value . '" class="button">';
+                            }
+                            ?>
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>
@@ -62,8 +76,9 @@
         ?>
     </main>
     <?php
-    include('includes/score.php');
+    include('includes/header.php');
     ?>
+    <script src="animation/logo/logo.js"></script>
 </body>
 
 </html>

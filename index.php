@@ -69,10 +69,11 @@ $_SESSION["game"] = $game;
         include('includes/footer.php');
         ?>
         <?php
-        include('includes/score.php');
+        include('includes/header.php');
         ?>
     </main>
     <script src="animation/animation.js"></script>
+    <script src="animation/logo/logo.js"></script>
 </body>
 
 </html>

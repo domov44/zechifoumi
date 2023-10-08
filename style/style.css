@@ -178,11 +178,28 @@ h6 {
   margin-bottom: 30px;
 }
 
+.title-section .win, .title-section .loose, .title-section .egalite {
+  animation: announce 0.7s linear forwards;
+}
+
+@keyframes announce {
+  0% {
+    transform: scale(0.5) rotate(160deg);
+  }
+  40% {
+    transform: scale(1) rotate(0deg);
+  }
+  70% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 .win {
   border-color: rgb(80, 227, 194);
   color: rgb(80, 227, 194);
   background: rgba(80, 227, 194, 0.1);
-  margin-bottom: 50px;
 }
 
 .loose {
@@ -226,6 +243,13 @@ h6 {
 }
 .illustration #lottie {
   width: 30%;
+}
+
+.logo {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  width: 80px;
 }
 
 .interaction {
