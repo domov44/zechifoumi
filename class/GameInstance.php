@@ -1,12 +1,12 @@
 <?php
 require_once 'choice.php';
+require_once 'Player.php';
 
 class GameInstance
 {
     public $GameName = 'chifoumi';
     public $choices;
     public $result;
-    public $username;
     public $valueComputerChoice;
 
     public function startChifoumi()
@@ -16,13 +16,6 @@ class GameInstance
         $choice3 = new Choice('Scissors', 'ciseau', 'Rocks');
 
         $this->choices = array($choice1, $choice2, $choice3);
-    }
-
-
-    public function register($pseudo)
-    {
-        $_SESSION['pseudo'] = $pseudo;
-        $this->username = $pseudo;
     }
 
     public function play($userchoice)

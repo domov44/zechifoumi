@@ -1,7 +1,6 @@
 <?php
 // computer.php
-class Computer
+class CreateDB
 {
 
 }
-

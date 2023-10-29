@@ -2,7 +2,8 @@
 session_start();
 require_once 'class/GameInstance.php';
 $game = new GameInstance();
-$game->register($_SESSION["pseudo"]);
+$player = new Player();
+$player->register($_SESSION["pseudo"]);
 $_SESSION["game"] = $game;
 
 // Obtenez le leaderboard à partir de la méthode getLeaderboard()

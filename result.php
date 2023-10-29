@@ -17,8 +17,10 @@
     <?php
     session_start();
     require_once 'class/GameInstance.php';
+    require_once 'class/Player.php';
     $game = new GameInstance();
-    $game->register($_POST["pseudo"]);
+    $player = new Player();
+    $player->register($_POST["pseudo"]);
     $game->play($_POST["submit"]);
     ?>
     <main class="contenu">
@@ -57,7 +59,7 @@
                     <form class="form" action="result.php" method="post">
                         <div class="input-container">
                             <?php
-                            echo '<input class="input-text" type="text" value="' . $game->username . '" name="pseudo" placeholder="Your pseudo" minlength="2" maxlength="10" required>';
+                            echo '<input class="input-text" type="text" value="' . $player->username . '" name="pseudo" placeholder="Your pseudo" minlength="2" maxlength="10" required>';
                             ?>
                         </div>
                         <div class="button-container">

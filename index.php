@@ -14,7 +14,9 @@
 <?php
 session_start();
 require_once 'class/GameInstance.php';
+require_once 'class/Player.php';
 $game = new GameInstance();
+$player = new Player();
 
 if (!isset($_SESSION['score'])) {
     $_SESSION['score'] = ['user' => 0, 'ia' => 0];
@@ -28,7 +30,8 @@ if (!isset($_SESSION['pseudo'])) {
     $_SESSION['pseudo'] = "";
 }
 
-$game->register($_SESSION["pseudo"]);
+
+$player->register($_SESSION["pseudo"]);
 
 $game->startChifoumi();
 $_SESSION["game"] = $game;
@@ -48,7 +51,7 @@ $_SESSION["game"] = $game;
                     <form class="form" action="result.php" method="post">
                         <div class="input-container">
                             <?php
-                            echo '<input class="input-text" type="text" value="' . $game->username . '" name="pseudo" placeholder="Your pseudo" minlength="2" maxlength="10" required>';
+                            echo '<input class="input-text" type="text" value="' . $player->username . '" name="pseudo" placeholder="Your pseudo" minlength="2" maxlength="10" required>';
                             ?>
                         </div>
                         <div class="button-container">

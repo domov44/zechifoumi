@@ -1,5 +1,6 @@
 <?php
 require_once 'class/GameInstance.php';
+require_once 'class/Player.php';
 
 $UserScore = $_SESSION['score']['user'];
 $IAscore = $_SESSION['score']['ia'];
@@ -13,6 +14,7 @@ if ($UserScore > $IAscore) {
 }
 
 $game = new GameInstance();
+$player = new Player();
 ?>
 
 <header>
