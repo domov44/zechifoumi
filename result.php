@@ -18,15 +18,19 @@
     session_start();
     require_once 'class/GameInstance.php';
     require_once 'class/Player.php';
+    require_once 'class/CreateDB.php';
     $game = new GameInstance();
     $player = new Player();
+
     $player->register($_POST["pseudo"]);
     $game->play($_POST["submit"]);
-    
-    // Vérifiez si le formulaire a été soumis
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $game->createJsonDB();
+        $data = new CreateDB();
+        $pseudo = $_POST["pseudo"];
+        $data->writeToJsonFile($pseudo);
     }
+
     ?>
     <main class="contenu">
         <section class="container">

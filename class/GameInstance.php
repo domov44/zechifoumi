@@ -29,50 +29,6 @@ class GameInstance
         $this->result = $this->compareChoice($this->valueComputerChoice, $userchoice, $nemesisComputer);
     }
 
-
-    public function createJsonDB()
-    {
-        if (!file_exists("storage")) {
-            mkdir("storage", 0777, true);
-        }
-
-        $filename = "storage/data.json";
-        $pseudo = $_SESSION["pseudo"];
-
-        if (file_exists($filename)) {
-            $content = file_get_contents($filename);
-            $contentd = json_decode($content, true);
-        } else {
-            $contentd = array();
-        }
-
-        $found = false;
-        $bestwinstreak = 0;
-
-        foreach ($contentd as &$value) {
-            if ($value["pseudo"] === $pseudo) {
-                $value['score'] = $_SESSION['score']['user'] . "-" . $_SESSION['score']['ia'];
-                $value['winstreak'] = $_SESSION['winStreak'];
-                $value['bestWinstreak'] = max($value['bestWinstreak'], $_SESSION['winStreak']);
-                $found = true;
-                break;
-            }
-        }
-
-        if (!$found) {
-            $newData = array(
-                "pseudo" => $pseudo,
-                "score" => $_SESSION['score']['user'] . "-" . $_SESSION['score']['ia'],
-                "winstreak" => $_SESSION['winStreak'],
-                "bestWinstreak" => $bestwinstreak
-            );
-            $contentd[] = $newData;
-        }
-
-
-        file_put_contents($filename, json_encode($contentd));
-    }
-
     public function getLeaderboard()
     {
         $filename = "storage/data.json";

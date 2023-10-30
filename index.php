@@ -26,13 +26,6 @@ if (!isset($_SESSION['winStreak'])) {
     $_SESSION['winStreak'] = 0;
 }
 
-if (!isset($_SESSION['pseudo'])) {
-    $_SESSION['pseudo'] = "";
-}
-
-
-$player->register($_SESSION["pseudo"]);
-
 $game->startChifoumi();
 $_SESSION["game"] = $game;
 

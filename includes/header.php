@@ -22,9 +22,9 @@ $player = new Player();
     <div class="interaction">
         <a class="lien" href="leaderboard.php">
             <?php
-            $playerRank = $game->getPlayerRank($_SESSION["pseudo"]);
+            $playerRank = $game->getPlayerRank($player->username);
             if ($playerRank !== null) {
-                echo  $_SESSION["pseudo"] . " " . "#" . $playerRank;
+                echo  $player->username . " " . "#" . $playerRank;
             }
             ?>
         </a>
