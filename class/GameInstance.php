@@ -82,6 +82,7 @@ class GameInstance
             $data = json_decode($content, true);
         } else {
             $data = array();
+            var_dump('tets');
         }
 
         $leaderboard = array();

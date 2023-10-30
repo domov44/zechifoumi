@@ -22,6 +22,11 @@
     $player = new Player();
     $player->register($_POST["pseudo"]);
     $game->play($_POST["submit"]);
+    
+    // Vérifiez si le formulaire a été soumis
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $game->createJsonDB();
+    }
     ?>
     <main class="contenu">
         <section class="container">
