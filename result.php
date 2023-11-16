@@ -19,6 +19,7 @@
     require_once 'class/GameInstance.php';
     require_once 'class/Player.php';
     require_once 'class/CreateDB.php';
+
     $game = new GameInstance();
     $player = new Player();
 
@@ -28,7 +29,7 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data = new CreateDB();
         $pseudo = $_POST["pseudo"];
-        $data->writeToJsonFile($pseudo);
+        $data->writeData($pseudo); // Use the new writeData method
     }
 
     ?>
@@ -59,7 +60,7 @@
                         echo $_POST["submit"];
                         ?>
                     </p>
-                    <h2 class="title">The AI have chosen..</h2>
+                    <h2 class="title">The AI has chosen..</h2>
                     <p class="paragraph">
                         <?php
                         echo $game->valueComputerChoice;

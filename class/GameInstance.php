@@ -1,6 +1,7 @@
 <?php
 require_once 'choice.php';
 require_once 'Player.php';
+require_once 'CreateDB.php';
 
 class GameInstance
 {

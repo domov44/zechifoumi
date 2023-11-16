@@ -11,10 +11,14 @@
     <link rel="icon" type="image/svg" href="animation\ventilateur.svg" />
     <title>Chifoumi</title>
 </head>
+
 <?php
 session_start();
 require_once 'class/GameInstance.php';
 require_once 'class/Player.php';
+require_once 'class/CreateDB.php';
+
+$connexion = new CreateDB();
 $game = new GameInstance();
 $player = new Player();
 
