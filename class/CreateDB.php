@@ -24,6 +24,16 @@ class CreateDB
         }
     }
 
+    public function getConnection()
+    {
+        return $this->conn;
+    }
+
+    public function closeConnection()
+    {
+        mysqli_close($this->conn);
+    }
+    
     private function insertOrUpdateMySQL($pseudo)
 {
     // Récupérer la valeur actuelle de bestwinstreak
