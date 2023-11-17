@@ -37,6 +37,7 @@ a {
     padding-top: 1px;
     padding-bottom: 1px;
     line-height: 1.2;
+    width: fit-content;
 }
 
 .lien::after {
@@ -100,11 +101,10 @@ body {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
             gap: 15px;
             max-width: 800px;
             border: solid 2px var(--secondary-color);
-            border-radius: 35px;
+            border-radius: 8px;
         }
 
     }
@@ -113,16 +113,19 @@ body {
         display: flex;
         flex-direction: column;
         gap: 15px;
+        width: 100%;
 
         .input-container{
             display: flex;
+            flex-direction: column;
+            gap:10px;
 
             .input-text {
                 width: 100%;
                 font-size: 20px;
                 background: var(--bg-color);
                 border: 1px solid var(--bg-color);
-                border-radius: 50px;
+                border-radius: 5px;
                 padding: 8px 12px;
                 color: var(--paragraph);
                 outline: none;
@@ -156,11 +159,11 @@ h1 {
 }
 
 h2 {
-    font-size: 30px;
+    font-size: 25px;
 }
 
 h3 {
-    font-size: 25px;
+    font-size: 23px;
 }
 
 h4 {
@@ -311,4 +314,11 @@ h6 {
     to {
         transform: scale(0.95);
     }
+}
+
+.error{
+    background: #391313;
+    color:#d33838;
+    padding: 10px;
+    border-radius: 5px;
 }

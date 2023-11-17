@@ -13,14 +13,19 @@
 </head>
 
 <?php
-session_start();
 require_once 'class/GameInstance.php';
 require_once 'class/Player.php';
 require_once 'class/CreateDB.php';
+require_once('authentification/session.php');
 
 $connexion = new CreateDB();
 $game = new GameInstance();
 $player = new Player();
+
+if (!isLoggedIn()) {
+    header("Location: login.php");
+    exit();
+}
 
 if (!isset($_SESSION['score'])) {
     $_SESSION['score'] = ['user' => 0, 'ia' => 0];

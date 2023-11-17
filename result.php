@@ -15,10 +15,15 @@
 <body>
 
     <?php
-    session_start();
     require_once 'class/GameInstance.php';
     require_once 'class/Player.php';
     require_once 'class/CreateDB.php';
+    require_once('authentification/session.php');
+
+    if (!isLoggedIn()) {
+        header("Location: login.php");
+        exit();
+    }
 
     $game = new GameInstance();
     $player = new Player();

@@ -1,28 +1,30 @@
 <?php
-require_once('authentification/auth.php');
-
-$message = '';
+require_once('authentification/db.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pseudo = $_POST['pseudo'];
-    $password = $_POST['password'];
+    $email = $_POST['email'];
+    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-    if (authenticateUser($pseudo, $password)) {
-        header("Location: index.php");
-        exit();
+    $conn = connectDB();
+    $sql = "INSERT INTO user (pseudo, email, password) VALUES ('$pseudo', '$email', '$password')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "You have signed up successfuly!";
     } else {
-        $message = "Login informations false";
+        echo "Error : " . $conn->error;
     }
+
+    $conn->close();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Signup</title>
     <link href="style/style.css" rel="stylesheet" />
     <link href="style/footer.css" rel="stylesheet" />
     <link href="font/font.css" rel="stylesheet" />
@@ -38,11 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <img src="animation/ventilateur.svg" alt="ventilator" class="icon">
             </div>
             <div class="chifoumi-container">
-                <h2 class="title">Login</h2>
-                <form method="post" class="form">
+                <h2 class="title">Signup</h2>
+                <form action="signup.php" method="post" class="form">
                     <div class="input-container">
                         <input class="input-text" id="pseudo" type="text" name="pseudo" placeholder="Pseudo" minlength="2" maxlength="10" required>
-                        <input class="input-text" id="password" type="password" name="password" placeholder="Password" required>
+                        <input class="input-text" id="email" type="email" name="email" placeholder="Email" required>
+                        <input class="input-text" type="password" id="password" name="password" placeholder="Password" required>
                         <?php if (!empty($message)) : ?>
                             <div class="error" role="alert">
                                 <strong class="font-bold">Error!</strong>
@@ -50,8 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                         <?php endif; ?>
                     </div>
-                    <button type="submit" class="button">Login</button>
-                    <p>You don't have an account ? <a class="lien" id="icon-alternate" href="http://localhost/zechifoumi/signup.php">Signup</a></p>
+                    <button type="submit" class="button">Signup</button>
+                    <p>You already have an account ? <a class="lien" id="icon-alternate" href="http://localhost/zechifoumi/login.php">Login</a></p>
                 </form>
             </div>
             </div>

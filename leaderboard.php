@@ -1,6 +1,12 @@
 <?php
-session_start();
 require_once 'class/GameInstance.php';
+require_once('authentification/session.php');
+
+if (!isLoggedIn()) {
+    header("Location: login.php");
+    exit();
+}
+
 $game = new GameInstance();
 $player = new Player();
 $player->register($_SESSION["pseudo"]);

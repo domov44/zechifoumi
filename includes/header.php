@@ -32,6 +32,9 @@ $player = new Player();
         </p>
         <p class="<?php echo isset($_SESSION['winStreak']) && $_SESSION['winStreak'] > 1 ? 'winstreak visible' : 'winstreak'; ?>">🔥<?php echo isset($_SESSION['winStreak']) ? $_SESSION['winStreak'] : 0; ?> winstreak🔥
         </p>
+        <form method="post" action="logout.php">
+            <button class="button" type="submit" name="logout" class="bg-red-500 text-white px-4 py-2 rounded-md">Déconnexion</button>
+        </form>
 
         <!-- <select class="selectmode" name="selector" id="selectmode">
         <option value="Easy">Easy</option>
