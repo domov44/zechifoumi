@@ -69,9 +69,10 @@ class CreateDB
 
         foreach ($contentd as &$value) {
             if ($value["pseudo"] === $pseudo) {
-                $value['score'] = $_SESSION['score']['user'] . "-" . $_SESSION['score']['ia'];
-                $value['winstreak'] = $_SESSION['winStreak'];
-                $value['bestWinstreak'] = max($value['bestWinstreak'], $_SESSION['winStreak']);
+                $value['user_score'] = $_SESSION['user_score'];
+                $value['computer_score'] = $_SESSION['computer_score'];
+                $value['winstreak'] = $_SESSION['winstreak'];
+                $value['bestwinstreak'] = max($value['bestwinstreak'], $_SESSION['winstreak']);
                 $found = true;
                 break;
             }
@@ -80,9 +81,10 @@ class CreateDB
         if (!$found) {
             $newData = array(
                 "pseudo" => $pseudo,
-                "score" => $_SESSION['score']['user'] . "-" . $_SESSION['score']['ia'],
-                "winstreak" => $_SESSION['winStreak'],
-                "bestWinstreak" => 0
+                "user_score" => $_SESSION['user_score'],
+                "computer_score" => $_SESSION['computer_score'],
+                "winstreak" => $_SESSION['winstreak'],
+                "bestwinstreak" => 0
             );
             $contentd[] = $newData;
         }

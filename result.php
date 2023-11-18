@@ -33,7 +33,8 @@
 
     // Update database and JSON file
     $connexion = new CreateDB();
-    $connexion->UpdateMysql($pseudo);
+    $connexion->WriteData($pseudo);
+    
 
     ?>
     <main class="contenu">

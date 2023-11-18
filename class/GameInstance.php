@@ -45,17 +45,17 @@ class GameInstance
         $leaderboard = array();
 
         foreach ($data as $key => $value) {
-            if (isset($value['bestWinstreak'])) {
+            if (isset($value['bestwinstreak'])) {
                 $leaderboard[] = array(
                     'rank' => 0,
                     'pseudo' => $value['pseudo'],
-                    'bestWinstreak' => $value['bestWinstreak']
+                    'bestwinstreak' => $value['bestwinstreak']
                 );
             }
         }
 
         usort($leaderboard, function ($a, $b) {
-            return $b['bestWinstreak'] - $a['bestWinstreak'];
+            return $b['bestwinstreak'] - $a['bestwinstreak'];
         });
 
         $rank = 1;
