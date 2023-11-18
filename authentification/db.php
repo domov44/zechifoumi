@@ -1,6 +1,12 @@
 <?php
-function connectDB() {
-    $conn = new mysqli("localhost", "root", "", "zechifoumi");
+define("DB_HOST", "localhost");
+define("DB_USER", "root");
+define("DB_PASSWORD", "");
+define("DB_NAME", "zechifoumi");
+
+function connectDB()
+{
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
     if ($conn->connect_error) {
         die("La connexion à la base de données a échoué: " . $conn->connect_error);
@@ -8,4 +14,3 @@ function connectDB() {
 
     return $conn;
 }
-?>

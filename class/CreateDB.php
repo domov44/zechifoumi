@@ -1,37 +1,13 @@
 <?php
+require_once('authentification/db.php');
+
 class CreateDB
 {
     private $conn;
 
     public function __construct()
     {
-        $this->connectMySQL(); // Établir la connexion MySQL
-    }
-
-    public function connectMySQL()
-    {
-        $servername = "localhost";
-        $database = "zechifoumi";
-        $username = "root";
-        $password = "";
-
-        // Créer la connexion
-        $this->conn = mysqli_connect($servername, $username, $password, $database);
-
-        // Vérifier la connexion
-        if (!$this->conn) {
-            die("Échec de la connexion : " . mysqli_connect_error());
-        }
-    }
-
-    public function getConnection()
-    {
-        return $this->conn;
-    }
-
-    public function closeConnection()
-    {
-        mysqli_close($this->conn);
+        $this->conn = connectDB();
     }
 
     public function UpdateMysql($pseudo)

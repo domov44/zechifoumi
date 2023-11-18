@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endif; ?>
                     </div>
                     <button type="submit" class="button">Login</button>
-                    <p>You don't have an account ? <a class="lien" id="icon-alternate" href="http://localhost/zechifoumi/signup.php">Signup</a></p>
+                    <p>You don't have an account ? <a class="lien" id="icon-alternate" href="https://www.zechifoumi.com/signup.php">Signup</a></p>
                 </form>
             </div>
             </div>
