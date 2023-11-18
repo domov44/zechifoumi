@@ -13,8 +13,7 @@
 </head>
 
 <body>
-
-    <?php
+<?php
     require_once 'class/GameInstance.php';
     require_once 'class/Player.php';
     require_once 'class/CreateDB.php';
@@ -29,7 +28,12 @@
     $player = new Player();
     $pseudo = $player->username;
 
+    // Process game result and update session variables
     $game->play($_POST["submit"]);
+
+    // Update database and JSON file
+    $connexion = new CreateDB();
+    $connexion->UpdateMysql($pseudo);
 
     ?>
     <main class="contenu">

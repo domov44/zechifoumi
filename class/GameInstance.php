@@ -83,15 +83,16 @@ class GameInstance
     function compareChoice($valueComputerChoice, $userchoice, $nemesisComputer)
     {
         if ($valueComputerChoice == $userchoice) {
-            $_SESSION['winStreak'] = 0;
+            $_SESSION['winstreak'] = 0;
             return "Egality";
         } elseif ($userchoice == $nemesisComputer) {
             $_SESSION['user_score']++;
-            // $_SESSION['winStreak']++;
+            $_SESSION['winstreak']++;
+            $_SESSION['bestwinstreak'] = max($_SESSION['bestwinstreak'], $_SESSION['winstreak']);
             return "You won !";
         } else {
             $_SESSION['computer_score']++;
-            $_SESSION['winStreak'] = 0;
+            $_SESSION['winstreak'] = 0;
             return "You lost..";
         }
     }

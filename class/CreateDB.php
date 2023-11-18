@@ -33,42 +33,35 @@ class CreateDB
     {
         mysqli_close($this->conn);
     }
-    
-    private function insertOrUpdateMySQL($pseudo)
-{
-    // Récupérer la valeur actuelle de bestwinstreak
-    $selectSql = "SELECT id, bestwinstreak FROM user WHERE pseudo = ?";
-    $selectStmt = mysqli_prepare($this->conn, $selectSql);
-    mysqli_stmt_bind_param($selectStmt, "s", $pseudo);
-    mysqli_stmt_execute($selectStmt);
-    mysqli_stmt_bind_result($selectStmt, $userId, $currentBestWinstreak);
-    mysqli_stmt_fetch($selectStmt);
-    mysqli_stmt_close($selectStmt);
 
-    // Mettre à jour bestwinstreak si le nouveau winstreak est plus élevé
-    $newWinstreak = $_SESSION['winStreak'];
-    $bestwinstreak = max($currentBestWinstreak, $newWinstreak);
+    public function UpdateMysql($pseudo)
+    {
+        // Récupérer la valeur actuelle de bestwinstreak
+        $selectSql = "SELECT id, bestwinstreak FROM user WHERE pseudo = ?";
+        $selectStmt = mysqli_prepare($this->conn, $selectSql);
+        mysqli_stmt_bind_param($selectStmt, "s", $pseudo);
+        mysqli_stmt_execute($selectStmt);
+        mysqli_stmt_bind_result($selectStmt, $userId, $currentBestWinstreak);
+        mysqli_stmt_fetch($selectStmt);
+        mysqli_stmt_close($selectStmt);
 
-    if ($userId) {
-        // Mettre à jour les informations pour l'utilisateur existant
-        $updateSql = "UPDATE user SET score = ?, winstreak = ?, bestwinstreak = ? WHERE id = ?";
-        $updateStmt = mysqli_prepare($this->conn, $updateSql);
-        $score = $_SESSION['score']['user'] . "-" . $_SESSION['score']['ia'];
-        $winstreak = $_SESSION['winStreak'];
-        mysqli_stmt_bind_param($updateStmt, "sssd", $score, $winstreak, $bestwinstreak, $userId);
-        mysqli_stmt_execute($updateStmt);
-        mysqli_stmt_close($updateStmt);
-    } else {
-        // Créer une nouvelle entrée pour l'utilisateur
-        $insertSql = "INSERT INTO user (pseudo, email, score, winstreak, bestwinstreak) VALUES (?, 'Testing@tesing.com', ?, ?, ?)";
-        $insertStmt = mysqli_prepare($this->conn, $insertSql);
-        $score = $_SESSION['score']['user'] . "-" . $_SESSION['score']['ia'];
-        $winstreak = $_SESSION['winStreak'];
-        mysqli_stmt_bind_param($insertStmt, "sssd", $pseudo, $score, $winstreak, $bestwinstreak);
-        mysqli_stmt_execute($insertStmt);
-        mysqli_stmt_close($insertStmt);
+        // Mettre à jour bestwinstreak si le nouveau winstreak est plus élevé
+        $newWinstreak = $_SESSION['winstreak'];
+        $bestwinstreak = max($currentBestWinstreak, $newWinstreak);
+
+        if ($userId) {
+            // Mettre à jour les informations pour l'utilisateur existant
+            $updateSql = "UPDATE user SET user_score = ?, computer_score = ?, winstreak = ?, bestwinstreak = ? WHERE id = ?";
+            $updateStmt = mysqli_prepare($this->conn, $updateSql);
+            $userscore = $_SESSION['user_score'];
+            $computerscore = $_SESSION['computer_score'];
+            $winstreak = $_SESSION['winstreak'];
+            mysqli_stmt_bind_param($updateStmt, "ssssd", $userscore, $computerscore, $winstreak, $bestwinstreak, $userId);
+            mysqli_stmt_execute($updateStmt);
+            mysqli_stmt_close($updateStmt);
+        }
     }
-}
+
 
     private function updateJsonFile($pseudo, &$contentd)
     {
@@ -102,7 +95,7 @@ class CreateDB
     {
         $contentd = $this->createJsonFile();
 
-        $this->insertOrUpdateMySQL($pseudo);
+        $this->UpdateMysql($pseudo);
 
         $this->updateJsonFile($pseudo, $contentd);
     }
@@ -125,4 +118,3 @@ class CreateDB
         return $contentd;
     }
 }
-?>
