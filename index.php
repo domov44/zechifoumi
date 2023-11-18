@@ -21,6 +21,7 @@ require_once('authentification/session.php');
 $connexion = new CreateDB();
 $game = new GameInstance();
 $player = new Player();
+$pseudo = $player->username;
 
 if (!isLoggedIn()) {
     header("Location: login.php");
@@ -53,7 +54,7 @@ $_SESSION["game"] = $game;
                     <form class="form" action="result.php" method="post">
                         <div class="input-container">
                             <?php
-                            echo '<input class="input-text" type="text" value="' . $player->username . '" name="pseudo" placeholder="Your pseudo" minlength="2" maxlength="10" required>';
+                            echo '<input class="input-text" type="hidden" value="' . $pseudo . '" name="pseudo" placeholder="Your pseudo" minlength="2" maxlength="10" required>';
                             ?>
                         </div>
                         <div class="button-container">

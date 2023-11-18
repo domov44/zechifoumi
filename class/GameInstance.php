@@ -86,11 +86,11 @@ class GameInstance
             $_SESSION['winStreak'] = 0;
             return "Egality";
         } elseif ($userchoice == $nemesisComputer) {
-            $_SESSION['score']['user']++;
-            $_SESSION['winStreak']++;
+            $_SESSION['user_score']++;
+            // $_SESSION['winStreak']++;
             return "You won !";
         } else {
-            $_SESSION['score']['ia']++;
+            $_SESSION['computer_score']++;
             $_SESSION['winStreak'] = 0;
             return "You lost..";
         }

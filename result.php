@@ -27,15 +27,9 @@
 
     $game = new GameInstance();
     $player = new Player();
+    $pseudo = $player->username;
 
-    $player->register($_POST["pseudo"]);
     $game->play($_POST["submit"]);
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $data = new CreateDB();
-        $pseudo = $_POST["pseudo"];
-        $data->writeData($pseudo); // Use the new writeData method
-    }
 
     ?>
     <main class="contenu">
@@ -74,7 +68,7 @@
                     <form class="form" action="result.php" method="post">
                         <div class="input-container">
                             <?php
-                            echo '<input class="input-text" type="text" value="' . $player->username . '" name="pseudo" placeholder="Your pseudo" minlength="2" maxlength="10" required>';
+                            echo '<input class="input-text" type="hidden" value="' . $pseudo . '" name="pseudo" placeholder="Your pseudo" minlength="2" maxlength="10" required>';
                             ?>
                         </div>
                         <div class="button-container">

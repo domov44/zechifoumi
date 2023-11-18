@@ -1,4 +1,4 @@
-<?php 
+<?php
 class Player
 {
     public $username;
@@ -10,11 +10,5 @@ class Player
         } else {
             $this->username = "";
         }
-    }
-
-    public function register($pseudo)
-    {
-        $this->username = $pseudo;
-        $_SESSION['pseudo'] = $pseudo;
     }
 }
