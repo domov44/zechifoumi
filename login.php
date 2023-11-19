@@ -1,5 +1,6 @@
 <?php
 require_once('authentification/auth.php');
+require_once('authentification/session.php');
 
 $message = '';
 
@@ -11,8 +12,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: index.php");
         exit();
     } else {
-        $message = "Login informations false";
+        $message = "Incorrect username or password. Please check your login credentials and try again.";
     }
+}
+
+if (isLoggedIn()) {
+    header("Location: index.php");
+    exit();
 }
 ?>
 
@@ -44,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input class="input-text" id="pseudo" type="text" name="pseudo" placeholder="Pseudo" minlength="2" maxlength="10" required>
                         <input class="input-text" id="password" type="password" name="password" placeholder="Password" required>
                         <?php if (!empty($message)) : ?>
-                            <div class="error" role="alert">
+                            <div class="loose" role="alert">
                                 <strong class="font-bold">Error!</strong>
                                 <span><?php echo $message; ?></span>
                             </div>

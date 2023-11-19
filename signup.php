@@ -1,5 +1,10 @@
 <?php
 require_once('authentification/db.php');
+require_once('authentification/auth.php');
+require_once('authentification/session.php');
+
+$message = "";
+$class = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pseudo = $_POST['pseudo'];
@@ -13,19 +18,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("sss", $pseudo, $email, $password);
 
         if ($stmt->execute()) {
-            echo "Inscription réussie!";
+            if (authenticateUser($pseudo, $_POST['password'])) {
+                session_start();
+                $_SESSION['pseudo'] = $pseudo;
+                header("Location: index.php");
+                exit();
+            } else {
+                $message = "Error during login after registration.";
+                $class = "loose";
+            }
         } else {
-            error_log("Erreur lors de l'inscription: " . $stmt->error);
-            echo "Erreur lors de l'inscription. Veuillez réessayer ultérieurement.";
+            $message = "Error during registration. Please try again later.";
+            error_log("Error during registration: " . $stmt->error);
+            $class = "loose";
         }
 
         $stmt->close();
         $conn->close();
     } else {
-        echo "Adresse email non valide. Veuillez fournir une adresse email valide.";
+        $message = "Invalid email address. Please provide a valid email address.";
+        $class = "loose";
     }
 }
+
+if (isLoggedIn()) {
+    header("Location: index.php");
+    exit();
+}
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -54,17 +76,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input class="input-text" id="pseudo" type="text" name="pseudo" placeholder="Pseudo" minlength="2" maxlength="10" required>
                         <input class="input-text" id="email" type="email" name="email" placeholder="Email" required>
                         <input class="input-text" type="password" id="password" name="password" placeholder="Password" required>
-                        <?php if (!empty($message)) : ?>
-                            <div class="error" role="alert">
-                                <strong class="font-bold">Error!</strong>
+                        <?php if (!empty($message) && $class === "loose") : ?>
+                            <div class="loose" role="alert">
+                                <strong class="font-bold">Error !</strong>
                                 <span><?php echo $message; ?></span>
                             </div>
                         <?php endif; ?>
                     </div>
                     <button type="submit" class="button">Signup</button>
-                    <p>You already have an account ? <a class="lien" id="icon-alternate" href="https://www.zechifoumi.com/login.php">Login</a></p>
+                    <p>You have already an account ? <a class="lien" id="icon-alternate" href="https://www.zechifoumi.com/login.php">Login</a></p>
                 </form>
-            </div>
             </div>
         </section>
         <?php

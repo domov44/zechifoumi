@@ -109,7 +109,7 @@ body .contenu .chifoumi-container {
   flex-direction: column;
   justify-content: center;
   gap: 15px;
-  max-width: 800px;
+  max-width: 500px;
   border: solid 2px var(--secondary-color);
   border-radius: 8px;
 }
@@ -303,10 +303,4 @@ h6 {
   to {
     transform: scale(0.95);
   }
-}
-.error {
-  background: #391313;
-  color: #d33838;
-  padding: 10px;
-  border-radius: 5px;
 }/*# sourceMappingURL=style.css.map */
