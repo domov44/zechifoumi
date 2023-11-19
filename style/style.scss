@@ -32,12 +32,18 @@ a {
 
 .lien {
     position: relative;
-    color:var(--color-title);
+    color: var(--color-title);
     display: inline-block;
-    padding-top: 1px;
+    padding: 1px 0px 0px 0px;
     padding-bottom: 1px;
     line-height: 1.2;
+    width: -moz-fit-content;
     width: fit-content;
+    appearance: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 17px;
 }
 
 .lien::after {
@@ -115,10 +121,10 @@ body {
         gap: 15px;
         width: 100%;
 
-        .input-container{
+        .input-container {
             display: flex;
             flex-direction: column;
-            gap:10px;
+            gap: 10px;
 
             .input-text {
                 width: 100%;
@@ -131,13 +137,13 @@ body {
                 outline: none;
                 transition: border-color 0.1s ease;
             }
-            
+
             .input-text:focus {
                 border-color: var(--main-color);
-            }            
+            }
         }
 
-        .button-container{
+        .button-container {
             display: flex;
             flex-direction: row;
             gap: 15px;
@@ -190,27 +196,29 @@ h6 {
     margin-bottom: 30px;
 }
 
-.title-section .win, .title-section .loose, .title-section .egalite{
+.title-section .win,
+.title-section .loose,
+.title-section .egalite {
     animation: announce 0.7s linear forwards;
 }
 
 @keyframes announce {
-    0%{
+    0% {
         transform: scale(0.5) rotate(160deg);
     }
 
-    40%{
+    40% {
         transform: scale(1) rotate(0deg);
     }
 
-    70%{
+    70% {
         transform: scale(0.8);
     }
 
-    100%{
+    100% {
         transform: scale(1);
     }
-    
+
 }
 
 .win {
@@ -265,7 +273,7 @@ h6 {
     }
 }
 
-.logo{
+.logo {
     position: fixed;
     top: 30px;
     left: 30px;
@@ -284,7 +292,7 @@ h6 {
         margin-bottom: 15px;
         text-align: center;
         visibility: hidden;
-        color:var(--secondary-bg-color);
+        color: var(--secondary-bg-color);
         background: var(--main-color);
         padding: 5px 8px;
         border-radius: 5px;
@@ -316,9 +324,9 @@ h6 {
     }
 }
 
-.error{
+.error {
     background: #391313;
-    color:#d33838;
+    color: #d33838;
     padding: 10px;
     border-radius: 5px;
 }

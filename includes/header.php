@@ -13,14 +13,34 @@ require_once 'class/Score.php';
         $score = new Score();
         $userScore = $score->userScore;
         $computerScore = $score->computerScore;
-        echo '<p>Connected as : ' . $pseudo . '</p>';
-        echo '<p>Your score : ' . $userScore . '-' . $computerScore . '</p>';
-        echo '<p>Bestwinstreak : ' . ($_SESSION["bestwinstreak"]) . '</p>';
+
+        if ($userScore > $computerScore) {
+            $classeCSS = 'win';
+        } elseif ($userScore < $computerScore) {
+            $classeCSS = 'loose';
+        } else {
+            $classeCSS = 'egalite';
+        }
         ?>
-        <p class="<?php echo isset($_SESSION['winstreak']) && $_SESSION['winstreak'] > 1 ? 'winstreak visible' : 'winstreak'; ?>">🔥<?php echo isset($_SESSION['winstreak']) ? $_SESSION['winstreak'] : 0; ?> winstreak🔥
+        <p> Connected as
+            <?php
+            echo $pseudo
+            ?>
         </p>
         <form method="post" action="logout.php">
-            <button class="button" type="submit" name="logout" class="bg-red-500 text-white px-4 py-2 rounded-md">Logout</button>
+            <button class="lien" type="submit" name="logout">Logout ?</button>
         </form>
+        <p class="scoring <?php echo isset($classeCSS) ? $classeCSS : 'egalite'; ?>">Score : <?php echo $userScore ?> - <?php echo $computerScore ?></p>
+        <p>Bestwinstreak : <?php echo '🔥' . $_SESSION["bestwinstreak"] . '🔥'; ?> </p>
+        <p>Your rank : <?php
+                        $playerRank = $game->getPlayerRank($_SESSION["pseudo"]);
+                        if ($playerRank !== null) {
+                            echo  "#" . $playerRank;
+                        }
+                        ?> </p>
+        </p>
+        <button class="button" onclick="window.location='leaderboard.php'">Leaderboard 🏆</button>
+        <p class="<?php echo isset($_SESSION['winstreak']) && $_SESSION['winstreak'] > 1 ? 'winstreak visible' : 'winstreak'; ?>">🔥<?php echo isset($_SESSION['winstreak']) ? $_SESSION['winstreak'] : 0; ?> winstreak🔥
+        </p>
     </div>
 </header>

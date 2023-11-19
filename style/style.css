@@ -38,11 +38,18 @@ a {
   position: relative;
   color: var(--color-title);
   display: inline-block;
-  padding-top: 1px;
+  padding: 1px 0px 0px 0px;
   padding-bottom: 1px;
   line-height: 1.2;
   width: -moz-fit-content;
   width: fit-content;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 17px;
 }
 
 .lien::after {
@@ -182,7 +189,9 @@ h6 {
   margin-bottom: 30px;
 }
 
-.title-section .win, .title-section .loose, .title-section .egalite {
+.title-section .win,
+.title-section .loose,
+.title-section .egalite {
   animation: announce 0.7s linear forwards;
 }
 
