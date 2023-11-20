@@ -12,28 +12,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirm_password'];
 
-    if ($password === $confirmPassword) {
+    if (!empty($password) && $password === $confirmPassword) {
         $passwordHash = password_hash($password, PASSWORD_BCRYPT);
 
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $conn = connectDB();
 
-            $stmt = $conn->prepare("INSERT INTO user (pseudo, email, password) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $pseudo, $email, $passwordHash);
+            $stmt = $conn->prepare("UPDATE user SET pseudo=?, email=?, password=? WHERE id=?");
+
+            $user_id = $_SESSION['user_id'];
+
+            $stmt->bind_param("sssi", $pseudo, $email, $passwordHash, $user_id);
 
             if ($stmt->execute()) {
-                if (authenticateUser($pseudo, $password)) {
-                    session_start();
-                    $_SESSION['pseudo'] = $pseudo;
-                    header("Location: index.php");
-                    exit();
-                } else {
-                    $message = "Error during login after registration.";
-                    $class = "loose";
-                }
+                $_SESSION['pseudo'] = $pseudo;
+                header("Location: index.php");
+                exit();
             } else {
-                $message = "Error during registration. Please try again later.";
-                error_log("Error during registration: " . $stmt->error);
+                $message = "Error modifying the account. Please try again later.";
+                error_log("Error modifying the account: " . $stmt->error);
                 $class = "loose";
             }
 
@@ -43,17 +40,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $message = "Invalid email address. Please provide a valid email address.";
             $class = "loose";
         }
+    } elseif (empty($password)) {
+        $conn = connectDB();
+
+        $stmt = $conn->prepare("UPDATE user SET pseudo=?, email=? WHERE id=?");
+
+        $user_id = $_SESSION['user_id'];
+
+        $stmt->bind_param("ssi", $pseudo, $email, $user_id);
+
+        if ($stmt->execute()) {
+            $_SESSION['pseudo'] = $pseudo;
+            $_SESSION['email'] = $email;
+            header("Location: index.php");
+            exit();
+        } else {
+            $message = "Error modifying the account. Please try again later.";
+            error_log("Error modifying the account: " . $stmt->error);
+            $class = "loose";
+        }
+
+        $stmt->close();
+        $conn->close();
     } else {
         $message = "Passwords do not match. Please enter them again.";
         $class = "loose";
     }
 }
 
-if (isLoggedIn()) {
-    header("Location: index.php");
+if (!isLoggedIn()) {
+    header("Location: login.php");
     exit();
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -77,13 +98,13 @@ if (isLoggedIn()) {
                 <img src="animation/ventilateur.svg" alt="ventilator" class="icon">
             </div>
             <div class="chifoumi-container">
-                <h2 class="title">Signup</h2>
-                <form action="signup.php" method="post" class="form">
+                <h2 class="title"><?php echo $_SESSION['pseudo']; ?>, edit your account</h2>
+                <form action="edit.php" method="post" class="form">
                     <div class="input-container">
-                        <input class="input-text" id="pseudo" type="text" name="pseudo" placeholder="Pseudo" minlength="2" maxlength="10" required>
-                        <input class="input-text" id="email" type="email" name="email" placeholder="Email" required>
-                        <input class="input-text" type="password" id="password" name="password" placeholder="Password" required>
-                        <input class="input-text" type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+                        <input class="input-text" id="pseudo" type="text" name="pseudo" placeholder="Pseudo" value="<?php echo $_SESSION['pseudo']; ?>" minlength="2" maxlength="10" required>
+                        <input class="input-text" id="email" type="email" name="email" placeholder="Email" value="<?php echo $_SESSION['email']; ?>" required>
+                        <input class="input-text" type="password" id="password" name="password" placeholder="New password">
+                        <input class="input-text" type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your new password">
                         <?php if (!empty($message) && $class === "loose") : ?>
                             <div class="loose" role="alert">
                                 <strong class="font-bold">Error !</strong>
@@ -91,8 +112,8 @@ if (isLoggedIn()) {
                             </div>
                         <?php endif; ?>
                     </div>
-                    <button type="submit" class="button">Signup</button>
-                    <p>You have already an account ? <a class="lien" id="icon-alternate" href="https://www.zechifoumi.com/login.php">Login</a></p>
+                    <button type="submit" class="button">Update change</button>
+                    <a class="lien" href="index.php">Cancel</a>
                 </form>
             </div>
         </section>

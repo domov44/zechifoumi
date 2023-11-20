@@ -7,6 +7,11 @@ require_once 'class/Score.php';
     <div class="logo" id="logo-container"></div>
     <div class="interaction">
         <?php
+
+        if(!isset($_SESSION["bestwinstreak"])){
+            $_SESSION["bestwinstreak"]=0;
+        }
+        
         $player = new Player();
         $pseudo = $player->username;
 
@@ -28,6 +33,7 @@ require_once 'class/Score.php';
             ?>
         </p>
         <form method="post" action="logout.php">
+            <a class="lien" href="edit.php">Edit account</a>
             <button class="lien" type="submit" name="logout">Logout ?</button>
         </form>
         <p class="scoring <?php echo isset($classeCSS) ? $classeCSS : 'egalite'; ?>">Score : <?php echo $userScore ?> - <?php echo $computerScore ?></p>
