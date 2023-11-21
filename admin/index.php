@@ -22,5 +22,6 @@ if (!isAdmin()) {
 
 <body>
     <h1 class="title">This is an admin page</h1>
+    <a href="datatable.php" class="lien">Database</a>
 </body>
 </html>
