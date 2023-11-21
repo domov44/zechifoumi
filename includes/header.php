@@ -8,10 +8,10 @@ require_once 'class/Score.php';
     <div class="interaction">
         <?php
 
-        if(!isset($_SESSION["bestwinstreak"])){
-            $_SESSION["bestwinstreak"]=0;
+        if (!isset($_SESSION["bestwinstreak"])) {
+            $_SESSION["bestwinstreak"] = 0;
         }
-        
+
         $player = new Player();
         $pseudo = $player->username;
 
@@ -27,13 +27,14 @@ require_once 'class/Score.php';
             $classeCSS = 'egalite';
         }
         ?>
-        <p> Connected as
-            <?php
-            echo $pseudo
-            ?>
-        </p>
+        <div class="user-info-container">
+            <img class="user-avatar" src=<?php echo $_SESSION["avatar"]?> >
+            <h5 class="title">
+                <?php echo $pseudo ?>
+            </h5>
+        </div>
+        <a class="lien" href="edit.php">Edit account</a>
         <form method="post" action="logout.php">
-            <a class="lien" href="edit.php">Edit account</a>
             <button class="lien" type="submit" name="logout">Logout ?</button>
         </form>
         <p class="scoring <?php echo isset($classeCSS) ? $classeCSS : 'egalite'; ?>">Score : <?php echo $userScore ?> - <?php echo $computerScore ?></p>

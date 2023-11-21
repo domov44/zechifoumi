@@ -11,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirm_password'];
+    $avatar = $_POST['avatar'];
 
     if (!empty($password) && $password === $confirmPassword) {
         $passwordHash = password_hash($password, PASSWORD_BCRYPT);
@@ -18,11 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $conn = connectDB();
 
-            $stmt = $conn->prepare("UPDATE user SET pseudo=?, email=?, password=? WHERE id=?");
+            $stmt = $conn->prepare("UPDATE user SET pseudo=?, avatar=?, email=?, password=? WHERE id=?");
 
             $user_id = $_SESSION['user_id'];
 
-            $stmt->bind_param("sssi", $pseudo, $email, $passwordHash, $user_id);
+            $stmt->bind_param("ssssi", $pseudo, $avatar, $email, $passwordHash, $user_id);
 
             if ($stmt->execute()) {
                 $_SESSION['pseudo'] = $pseudo;
@@ -43,15 +44,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (empty($password)) {
         $conn = connectDB();
 
-        $stmt = $conn->prepare("UPDATE user SET pseudo=?, email=? WHERE id=?");
+        $stmt = $conn->prepare("UPDATE user SET pseudo=?, avatar=?, email=? WHERE id=?");
 
         $user_id = $_SESSION['user_id'];
 
-        $stmt->bind_param("ssi", $pseudo, $email, $user_id);
+        $stmt->bind_param("sssi", $pseudo, $avatar, $email, $user_id);
 
         if ($stmt->execute()) {
             $_SESSION['pseudo'] = $pseudo;
             $_SESSION['email'] = $email;
+            $_SESSION['avatar'] = $avatar;
             header("Location: index.php");
             exit();
         } else {
@@ -100,6 +102,22 @@ if (!isLoggedIn()) {
             <div class="chifoumi-container">
                 <h2 class="title"><?php echo $_SESSION['pseudo']; ?>, edit your account</h2>
                 <form action="edit.php" method="post" class="form">
+                    <div style="display: flex; gap:15px;">
+                        <div class="avatar-choice">Choose your avatar
+                            <input type="radio" id="samourai" name="avatar" value="https://zechifoumi.com/uploads/avatar/samourai.svg" checked />
+                            <label class="avatar-label" for="samourai">
+                                <img src="https://zechifoumi.com/uploads/avatar/samourai.svg">
+                                <div>Samourai</div>
+                            </label>
+                        </div>
+                        <div class="avatar-choice">
+                            <input type="radio" id="samourai-2" name="avatar" value="https://zechifoumi.com/uploads/avatar/samourai-2.svg"/>
+                            <label class="avatar-label" for="samourai-2">
+                                <img src="https://zechifoumi.com/uploads/avatar/samourai-2.svg">
+                                <div>Samourai 2</div>
+                            </label>
+                        </div>
+                    </div>
                     <div class="input-container">
                         <input class="input-text" id="pseudo" type="text" name="pseudo" placeholder="Pseudo" value="<?php echo $_SESSION['pseudo']; ?>" minlength="2" maxlength="10" required>
                         <input class="input-text" id="email" type="email" name="email" placeholder="Email" value="<?php echo $_SESSION['email']; ?>" required>
