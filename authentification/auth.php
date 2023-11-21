@@ -5,7 +5,7 @@ function authenticateUser($pseudo, $password)
 {
     $conn = connectDB();
 
-    $stmt = $conn->prepare("SELECT id, avatar, pseudo, email, user_score, computer_score, winstreak, bestwinstreak, password FROM user WHERE pseudo = ?");
+    $stmt = $conn->prepare("SELECT id, avatar, pseudo, email, role, user_score, computer_score, winstreak, bestwinstreak, password FROM user WHERE pseudo = ?");
     $stmt->bind_param("s", $pseudo);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -20,10 +20,16 @@ function authenticateUser($pseudo, $password)
             $_SESSION['avatar'] = $row['avatar'];
             $_SESSION['pseudo'] = $row['pseudo'];
             $_SESSION['email'] = $row['email'];
+            $_SESSION['role'] = $row['role'];
             $_SESSION['user_score'] = $row['user_score'];
             $_SESSION['computer_score'] = $row['computer_score'];
             $_SESSION['winstreak'] = $row['winstreak'];
             $_SESSION['bestwinstreak'] = $row['bestwinstreak'];
+
+            if ($row['role'] === 'Admin') {
+                $_SESSION['admin_token'] = bin2hex(random_bytes(16));
+            }
+
             $stmt->close();
             $conn->close();
             return true;
