@@ -32,9 +32,18 @@ if (!isAdmin()) {
     <form action="add_user.php" method="post">
         <label for="pseudo">Pseudo:</label>
         <input type="text" name="pseudo" required>
+        <label for="email">Email:</label>
+        <input type="email" name="email" required>
+
+        <label for="role">Choose a role:</label>
+        <select name="role" id="role">
+            <option value="">--Please choose a role--</option>
+            <option value="Player">Player</option>
+            <option value="Admin">Admin</option>
+        </select>
+
         <label for="password">Password:</label>
         <input type="password" name="password" required>
-        <!-- Add other fields as needed -->
         <button type="submit">Add User</button>
     </form>
 
