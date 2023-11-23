@@ -9,7 +9,7 @@
     --main-color: #F8046B;
     --secondary-color: #8E0D53;
     --paragraph: #D898DB;
-    --color-title: #DF95D4;
+    --color-title: #eeb8e6;
 }
 
 ::selection {
@@ -105,10 +105,10 @@ body {
             padding: 30px;
             background: var(--secondary-bg-color);
             display: flex;
+            min-width: 500px;
             flex-direction: column;
             justify-content: center;
             gap: 15px;
-            max-width: 500px;
             border: solid 2px var(--secondary-color);
             border-radius: 8px;
         }
@@ -263,6 +263,31 @@ h6 {
     }
 }
 
+.button-secondary {
+    background: var(--color-title);
+    color: var(--secondary-bg-color);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0px 5px var(--paragraph);
+    padding: 8px 14px;
+    transition: 0.15s ease-in-out;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 20px;
+    width: 100%;
+
+    &:hover {
+        box-shadow: 0px 4px var(--paragraph);
+        transform: translate(0px, 1px);
+    }
+
+    &:active {
+        box-shadow: 0px 0px var(--paragraph);
+        transform: translate(0px, 5px);
+    }
+}
+
+
 .illustration {
     display: flex;
     align-items: center;
@@ -326,30 +351,49 @@ h6 {
     }
 }
 
-.avatar-choice input[type=radio]{
+.avatar-choice input[type=radio] {
     appearance: none;
 }
 
-.avatar-label{
+.avatar-label {
     display: block;
     padding: 10px;
     border: 1px solid var(--color-title);
-    border-radius: 5px;;
+    border-radius: 5px;
+    ;
     cursor: pointer;
     width: 100%;
 }
 
-.avatar-choice{
+.avatar-choice {
     width: 100%;
 }
 
-.avatar-choice label img{
+.avatar-choice label img {
     max-height: 50px;
     display: block;
 }
 
-.avatar-choice input[type=radio]:checked+ .avatar-label {
+.avatar-choice input[type=radio]:checked+.avatar-label {
     border-color: var(--main-color);
+}
+
+.popup {
+    min-width: 500px;
+    position: absolute;
+    padding: 50px;
+    background: var(--secondary-bg-color);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+tr {
+    th, td {
+        padding: 8px 10px;
+        text-align: center;
+    }
+
 }
 
 @keyframes bounce {

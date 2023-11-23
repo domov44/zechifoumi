@@ -9,7 +9,7 @@
   --main-color: #F8046B;
   --secondary-color: #8E0D53;
   --paragraph: #D898DB;
-  --color-title: #DF95D4;
+  --color-title: #eeb8e6;
 }
 
 ::-moz-selection {
@@ -106,10 +106,10 @@ body .contenu .chifoumi-container {
   padding: 30px;
   background: var(--secondary-bg-color);
   display: flex;
+  min-width: 500px;
   flex-direction: column;
   justify-content: center;
   gap: 15px;
-  max-width: 500px;
   border: solid 2px var(--secondary-color);
   border-radius: 8px;
 }
@@ -249,6 +249,28 @@ h6 {
   transform: translate(0px, 5px);
 }
 
+.button-secondary {
+  background: var(--color-title);
+  color: var(--secondary-bg-color);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0px 5px var(--paragraph);
+  padding: 8px 14px;
+  transition: 0.15s ease-in-out;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 20px;
+  width: 100%;
+}
+.button-secondary:hover {
+  box-shadow: 0px 4px var(--paragraph);
+  transform: translate(0px, 1px);
+}
+.button-secondary:active {
+  box-shadow: 0px 0px var(--paragraph);
+  transform: translate(0px, 5px);
+}
+
 .illustration {
   display: flex;
   align-items: center;
@@ -333,6 +355,21 @@ h6 {
 
 .avatar-choice input[type=radio]:checked + .avatar-label {
   border-color: var(--main-color);
+}
+
+.popup {
+  min-width: 500px;
+  position: absolute;
+  padding: 50px;
+  background: var(--secondary-bg-color);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+tr th, tr td {
+  padding: 8px 10px;
+  text-align: center;
 }
 
 @keyframes bounce {

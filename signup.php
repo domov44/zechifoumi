@@ -92,7 +92,7 @@ if (isLoggedIn()) {
                         <?php endif; ?>
                     </div>
                     <button type="submit" class="button">Signup</button>
-                    <p>You have already an account ? <a class="lien" id="icon-alternate" href="https://www.zechifoumi.com/login.php">Login</a></p>
+                    <button class="button-secondary" onclick="window.location='login.php'">I have an account</button>
                 </form>
             </div>
         </section>

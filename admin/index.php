@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin panel</title>
     <link href="../style/style.css" rel="stylesheet" />
@@ -21,7 +22,16 @@ if (!isAdmin()) {
 ?>
 
 <body>
-    <h1 class="title">This is an admin page</h1>
-    <a href="datatable.php" class="lien">Database</a>
+    <main class="contenu">
+        <section class="container">
+            <div class="title-section">
+                <h1 class="title">Admin page</h1>
+            </div>
+            <div class="chifoumi-container">
+                <a href="datatable.php" class="lien">Database Panel</a>
+            </div>
+        </section>
+    </main>
 </body>
+
 </html>
