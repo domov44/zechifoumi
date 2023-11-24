@@ -63,7 +63,7 @@ if (isLoggedIn()) {
                         <?php endif; ?>
                     </div>
                     <button type="submit" class="button">Login</button>
-                    <button class="button-secondary" onclick="window.location='signup.php'">I don't have account</button>
+                    <a class="button-secondary" href="signup.php">Create account</a>
                 </form>
             </div>
             </div>

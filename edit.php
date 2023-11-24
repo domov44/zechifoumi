@@ -143,7 +143,7 @@ if (!isLoggedIn()) {
                         <?php endif; ?>
                     </div>
                     <button type="submit" class="button">Update change</button>
-                    <a class="lien" href="index.php">Cancel</a>
+                    <a class="button-secondary" href="index.php">Cancel</a>
                 </form>
             </div>
         </section>

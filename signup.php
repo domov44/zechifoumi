@@ -77,7 +77,7 @@ if (isLoggedIn()) {
                 <img src="animation/ventilateur.svg" alt="ventilator" class="icon">
             </div>
             <div class="chifoumi-container">
-                <h2 class="title">Signup</h2>
+                <h2 class="title">Sign up</h2>
                 <form action="signup.php" method="post" class="form">
                     <div class="input-container">
                         <div class="inputBox">
@@ -103,8 +103,8 @@ if (isLoggedIn()) {
                             </div>
                         <?php endif; ?>
                     </div>
-                    <button type="submit" class="button">Signup</button>
-                    <button class="button-secondary" onclick="window.location='login.php'">I have an account</button>
+                    <button type="submit" class="button">Sign up</button>
+                    <a class="button-secondary" href="login.php">I already have an account</a>
                 </form>
             </div>
         </section>
