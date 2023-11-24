@@ -106,6 +106,17 @@ body .contenu .chifoumi-container {
   padding: 30px;
   background: var(--secondary-bg-color);
   display: flex;
+  max-width: 500px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+  border: solid 2px var(--secondary-color);
+  border-radius: 8px;
+}
+body .contenu .table-container {
+  padding: 30px;
+  background: var(--secondary-bg-color);
+  display: flex;
   min-width: 500px;
   flex-direction: column;
   justify-content: center;
@@ -124,19 +135,38 @@ body .form .input-container {
   flex-direction: column;
   gap: 10px;
 }
-body .form .input-container .input-text {
+body .form .input-container .inputBox {
+  position: relative;
+}
+body .form .input-container .inputBox .input-text {
   width: 100%;
   font-size: 20px;
   background: var(--bg-color);
-  border: 1px solid var(--bg-color);
+  border: none;
   border-radius: 5px;
-  padding: 8px 12px;
+  padding: 25px 12px 8px 12px;
   color: var(--paragraph);
   outline: none;
   transition: border-color 0.1s ease;
 }
-body .form .input-container .input-text:focus {
-  border-color: var(--main-color);
+body .form .input-container .inputBox label {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  padding: 10px;
+  pointer-events: none;
+  font-size: 20px;
+  color: var(--paragraph);
+  transition: 0.2s ease-in-out;
+  border-radius: 5px;
+}
+body .form .input-container .inputBox .input-text:valid ~ label,
+body .form .input-container .inputBox .input-text:focus ~ label {
+  color: var(--main-color);
+  transform: translateY(-25px);
+  font-size: 0.85em;
+  padding: 0 10px;
 }
 body .form .button-container {
   display: flex;
@@ -367,9 +397,18 @@ h6 {
   transform: translate(-50%, -50%);
 }
 
-tr th, tr td {
+table {
+  border-collapse: collapse;
+  border-color: var(--bg-color);
+}
+
+tr th,
+tr td {
+  margin: none;
   padding: 8px 10px;
   text-align: center;
+  border: none;
+  border-bottom: 1px var(--bg-color) solid;
 }
 
 @keyframes bounce {

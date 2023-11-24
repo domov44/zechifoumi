@@ -47,7 +47,7 @@ if (!isAdmin()) {
             <div class="title-section">
                 <h1>User Management</h1>
             </div>
-            <div class="chifoumi-container">
+            <div class="table-container">
                 <h2>User List</h2>
                 <button class="button" style="width:fit-content" onclick="togglePopup()">+ Add</button>
                 <div class="popup" id="addUserPopup" style="display: none;">

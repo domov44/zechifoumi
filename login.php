@@ -47,8 +47,14 @@ if (isLoggedIn()) {
                 <h2 class="title">Login</h2>
                 <form method="post" class="form">
                     <div class="input-container">
-                        <input class="input-text" id="pseudo" type="text" name="pseudo" placeholder="Pseudo" minlength="2" maxlength="10" required>
-                        <input class="input-text" id="password" type="password" name="password" placeholder="Password" required>
+                        <div class="inputBox">
+                            <input class="input-text" id="pseudo" type="text" name="pseudo" minlength="2" maxlength="10" required>
+                            <label for="pseudo">Pseudo</label>
+                        </div>
+                        <div class="inputBox">
+                            <input class="input-text" id="password" type="password" name="password" required>
+                            <label for="password" >Password</label>
+                        </div>
                         <?php if (!empty($message)) : ?>
                             <div class="loose" role="alert">
                                 <strong class="font-bold">Error!</strong>

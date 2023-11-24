@@ -28,8 +28,14 @@ if (isAdmin()) {
 <h2>Add User</h2>
 <form class="form" action="add_user.php" method="post">
     <div class="input-container">
-        <input class="input-text" type="text" name="pseudo" placeholder="pseudo" required>
-        <input class="input-text" type="email" name="email" placeholder="email" required>
+        <div class="inputBox">
+            <input class="input-text" type="text" name="pseudo" required>
+            <label for="pseudo">Pseudo</label>
+        </div>
+        <div class="inputBox">
+            <input class="input-text" type="email" name="email" required>
+            <label for="pseudo">Email</label>
+        </div>
     </div>
     <div style="display: flex; gap:15px;">
         <div class="avatar-choice">Choose a role
@@ -48,7 +54,10 @@ if (isAdmin()) {
         </div>
     </div>
     <div class="input-container">
-        <input class="input-text" type="password" name="password" placeholder="password" required>
+        <div class="inputBox">
+            <input class="input-text" type="password" name="password" required>
+            <label for="pseudo">Password</label>
+        </div>
     </div>
     <button class="button" type="submit">Add User</button>
     <button class="button-secondary" onclick="togglePopup()">Cancel</button>

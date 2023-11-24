@@ -80,10 +80,22 @@ if (isLoggedIn()) {
                 <h2 class="title">Signup</h2>
                 <form action="signup.php" method="post" class="form">
                     <div class="input-container">
-                        <input class="input-text" id="pseudo" type="text" name="pseudo" placeholder="Pseudo" minlength="2" maxlength="10" required>
-                        <input class="input-text" id="email" type="email" name="email" placeholder="Email" required>
-                        <input class="input-text" type="password" id="password" name="password" placeholder="Password" required>
-                        <input class="input-text" type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+                        <div class="inputBox">
+                            <input class="input-text" id="pseudo" type="text" name="pseudo" minlength="2" maxlength="10" required>
+                            <label for="pseudo">Pseudo</label>
+                        </div>
+                        <div class="inputBox">
+                            <input class="input-text" id="email" type="email" name="email" required>
+                            <label for="pseudo">Email</label>
+                        </div>
+                        <div class="inputBox">
+                            <input class="input-text" type="password" id="password" name="password" required>
+                            <label for="pseudo">Password</label>
+                        </div>
+                        <div class="inputBox">
+                            <input class="input-text" type="password" id="confirm_password" name="confirm_password" required>
+                            <label for="pseudo">Confirm password</label>
+                        </div>
                         <?php if (!empty($message) && $class === "loose") : ?>
                             <div class="loose" role="alert">
                                 <strong class="font-bold">Error !</strong>
