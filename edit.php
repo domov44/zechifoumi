@@ -111,7 +111,7 @@ if (!isLoggedIn()) {
                             </label>
                         </div>
                         <div class="avatar-choice">
-                            <input type="radio" id="samourai-2" name="avatar" value="https://zechifoumi.com/uploads/avatar/samourai-2.svg"/>
+                            <input type="radio" id="samourai-2" name="avatar" value="https://zechifoumi.com/uploads/avatar/samourai-2.svg" />
                             <label class="avatar-label" for="samourai-2">
                                 <img src="https://zechifoumi.com/uploads/avatar/samourai-2.svg">
                                 <div>Samourai 2</div>
@@ -119,10 +119,22 @@ if (!isLoggedIn()) {
                         </div>
                     </div>
                     <div class="input-container">
-                        <input class="input-text" id="pseudo" type="text" name="pseudo" placeholder="Pseudo" value="<?php echo $_SESSION['pseudo']; ?>" minlength="2" maxlength="10" required>
-                        <input class="input-text" id="email" type="email" name="email" placeholder="Email" value="<?php echo $_SESSION['email']; ?>" required>
-                        <input class="input-text" type="password" id="password" name="password" placeholder="New password">
-                        <input class="input-text" type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your new password">
+                        <div class="inputBox">
+                            <input class="input-text" id="pseudo" type="text" name="pseudo" value="<?php echo $_SESSION['pseudo']; ?>" minlength="2" maxlength="10" required>
+                            <label for="pseudo">Pseudo</label>
+                        </div>
+                        <div class="inputBox">
+                            <input class="input-text" id="email" type="email" name="email" value="<?php echo $_SESSION['email']; ?>" required>
+                            <label for="pseudo">Email</label>
+                        </div>
+                        <div class="inputBox">
+                            <input class="input-text" type="password" id="password" name="password" placeholder="New password">
+                            <label for="pseudo">Password</label>
+                        </div>
+                        <div class="inputBox">
+                            <input class="input-text" type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your new password">
+                            <label for="pseudo">Confirm password</label>
+                        </div>
                         <?php if (!empty($message) && $class === "loose") : ?>
                             <div class="loose" role="alert">
                                 <strong class="font-bold">Error !</strong>
