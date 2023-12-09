@@ -9,7 +9,7 @@
     <link href="../style/footer.css" rel="stylesheet" />
     <link href="../font/font.css" rel="stylesheet" />
     <link rel="icon" type="image/svg" href="animation\ventilateur.svg" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <script>
         function togglePopup() {
@@ -24,6 +24,22 @@
                     }
                 };
                 xmlhttp.open("GET", "add_user.php", true);
+                xmlhttp.send();
+            }
+        }
+
+        function toggleModifyPopup(userId) {
+            var modifyPopup = document.getElementById("modifyUserPopup");
+            modifyPopup.style.display = (modifyPopup.style.display === "none" || modifyPopup.style.display === "") ? "block" : "none";
+
+            if (modifyPopup.style.display === "block") {
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("EditContent").innerHTML = this.responseText;
+                    }
+                };
+                xmlhttp.open("GET", "modify_user.php?user_id=" + userId, true);
                 xmlhttp.send();
             }
         }
@@ -50,20 +66,19 @@ if (!isAdmin()) {
             <div class="table-container">
                 <h2>User List</h2>
                 <button class="button" style="width:fit-content" onclick="togglePopup()">+ Add</button>
-                <div class="popup" id="addUserPopup" style="display: none;">
-                    <div id="popupContent"></div>
+                <div class="overlay" id="addUserPopup" style="display: none;">
+                    <div class="popup" id="addUserPopup">
+                        <div id="popupContent"></div>
+                    </div>
                 </div>
-
                 <?php include('display_users.php'); ?>
             </div>
         </section>
-        <!-- Form for Modifying a User -->
-        <h2>Modify User</h2>
-        <form action="modify_user.php" method="post">
-            <label for="user_id">User ID:</label>
-            <input type="text" name="user_id" required>
-            <button type="submit">Modify User</button>
-        </form>
+        <div class="overlay" id="modifyUserPopup" style="display: none;">
+            <div class="popup" id="modifyUserPopup">
+                <div id="EditContent"></div>
+            </div>
+        </div>
     </main>
 </body>
 

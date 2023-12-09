@@ -391,7 +391,17 @@ h6 {
   border-color: var(--main-color);
 }
 
-.popup {
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+}
+.overlay .popup {
   min-width: 500px;
   position: absolute;
   padding: 50px;
@@ -399,6 +409,8 @@ h6 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
 }
 
 table {
@@ -408,7 +420,6 @@ table {
 
 tr th,
 tr td {
-  margin: none;
   padding: 8px 10px;
   text-align: center;
   border: none;
