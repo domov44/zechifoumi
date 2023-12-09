@@ -20,12 +20,12 @@ if (isAdmin()) {
             echo "<td>{$row['user_score']}</td>";
             echo "<td>{$row['computer_score']}</td>";
             echo "<td>{$row['role']}</td>";
-            echo "<td><form action='delete_user.php' method='post'>";
+            echo "<td><div>";
+            echo "<button class='button' type='button' style='width:fit-content' onclick='toggleModifyPopup({$row['id']})'><i class='fas fa-pencil-alt'></i></button>";
+            echo "<form action='delete_user.php' method='post'>";
             echo "<input type='hidden' name='user_id' value='{$row['id']}'>";
             echo "<button class='button' type='submit'><i class='far fa-trash-alt'></i></button>";
-            echo "</form><form action='' method='post'>";
-            echo "<button class='button' type='button' style='width:fit-content' onclick='toggleModifyPopup({$row['id']})'><i class='fas fa-pencil-alt'></i></button>";
-            echo "</form></td>";
+            echo "</form></div></td>";
             echo "</tr>";
         }
         echo "</table>";

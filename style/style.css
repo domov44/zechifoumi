@@ -10,6 +10,10 @@
   --secondary-color: #8E0D53;
   --paragraph: #D898DB;
   --color-title: #eeb8e6;
+  --success-color:rgb(80, 227, 194);
+  --success-bg:#192526;
+  --error-color:rgb(255, 109, 116);
+  --error-bg:#2B2023;
 }
 
 ::-moz-selection {
@@ -182,7 +186,7 @@ body .form .button-container {
 }
 
 h2.leaderboard {
-  color: rgb(80, 227, 194);
+  color: var(--success-color);
 }
 
 h1 {
@@ -242,15 +246,15 @@ h6 {
   }
 }
 .win {
-  border-color: rgb(80, 227, 194);
-  color: rgb(80, 227, 194);
-  background: rgba(80, 227, 194, 0.1);
+  border-color: var(--success-color);
+  color: var(--success-color);
+  background: var(--success-bg);
 }
 
 .loose {
-  border-color: rgb(255, 109, 116);
-  color: rgb(255, 109, 116);
-  background: rgba(250, 179, 169, 0.1);
+  border-color: var(--error-color);
+  color: var(--error-color);
+  background: var(--error-bg);
 }
 
 .egalite {
@@ -424,6 +428,11 @@ tr td {
   text-align: center;
   border: none;
   border-bottom: 1px var(--bg-color) solid;
+}
+tr th div,
+tr td div {
+  display: flex;
+  gap: 10px;
 }
 
 @keyframes bounce {
