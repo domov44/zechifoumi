@@ -7,9 +7,14 @@
     <link href="style/style.css" rel="stylesheet" />
     <link href="style/footer.css" rel="stylesheet" />
     <link href="font/font.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.3/lottie.min.js"></script>
+    <script src="javascript/functions.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <link rel="icon" type="image/svg" href="animation\ventilateur.svg" />
     <title>Chifoumi</title>
+
 </head>
 
 <?php
@@ -17,6 +22,7 @@ require_once 'class/GameInstance.php';
 require_once 'class/Player.php';
 require_once 'class/CreateDB.php';
 require_once('authentification/session.php');
+require_once 'class/ToastHandler.php';
 
 $connexion = new CreateDB();
 $game = new GameInstance();
@@ -43,6 +49,10 @@ $_SESSION["game"] = $game;
 
 <body>
     <main class="contenu">
+        <?php
+        $toastHandler = new ToastHandler();
+        $toastHandler->afficherToasts();
+        ?>
         <section class="container">
             <div class="title-section">
                 <img src="animation/ventilateur.svg" alt="ventilator" class="icon">

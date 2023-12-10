@@ -15,15 +15,23 @@ if (isAdmin()) {
         $conn = connectDB();
         $stmt = $conn->prepare("UPDATE user SET pseudo = ?, email = ?, user_score = ?, computer_score = ?, winstreak = ?, bestwinstreak = ? WHERE id = ?");
         $stmt->bind_param("ssiiiii", $pseudo, $email, $user_score, $computer_score, $winstreak, $bestwinstreak, $user_id);
-        $stmt->execute();
+        $result = $stmt->execute(); 
 
         $stmt->close();
         $conn->close();
 
+        if ($result) {
+            $_SESSION['modification_reussie'] = true;
+        }
+
+        else {
+            $_SESSION['modification_echoue'] = true;
+        }
+
         header("Location: datatable.php");
         exit();
     }
-    
+
     if (isset($_GET['user_id'])) {
         $user_id = $_GET['user_id'];
 

@@ -1,6 +1,7 @@
 <?php
 require_once('authentification/auth.php');
 require_once('authentification/session.php');
+require_once 'class/ToastHandler.php';
 
 $message = '';
 
@@ -9,6 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     if (authenticateUser($pseudo, $password)) {
+        $_SESSION['connexion_reussie'] = true;
+
         header("Location: index.php");
         exit();
     } else {
@@ -33,10 +36,16 @@ if (isLoggedIn()) {
     <link href="style/footer.css" rel="stylesheet" />
     <link href="font/font.css" rel="stylesheet" />
     <link rel="icon" type="image/svg" href="animation\ventilateur.svg" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 
 <body>
     <main class="contenu">
+        <?php
+        $toastHandler = new ToastHandler();
+        $toastHandler->afficherToasts();
+        var_dump($_SESSION['deconnexion_reussie']);
+        ?>
         <section class="container">
             <div class="title-section">
                 <img src="animation/ventilateur.svg" alt="ventilator" class="icon">
@@ -53,7 +62,7 @@ if (isLoggedIn()) {
                         </div>
                         <div class="inputBox">
                             <input class="input-text" id="password" type="password" name="password" required>
-                            <label for="password" >Password</label>
+                            <label for="password">Password</label>
                         </div>
                         <?php if (!empty($message)) : ?>
                             <div class="loose" role="alert">
@@ -72,6 +81,7 @@ if (isLoggedIn()) {
         include('includes/footer.php');
         ?>
     </main>
+    <script src="javascript/functions.js"></script>
 </body>
 
 </html>

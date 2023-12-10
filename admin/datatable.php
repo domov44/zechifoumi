@@ -11,20 +11,27 @@
     <link rel="icon" type="image/svg" href="animation\ventilateur.svg" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="../javascript/functions.js"></script>
 
 </head>
 
 <?php
 require_once('../authentification/session.php');
+require_once('../class/ToastHandler.php');
 
 if (!isAdmin()) {
     header("Location: ../login.php");
     exit();
 }
-
 ?>
 
 <body>
+    <?php
+    $toastHandler = new ToastHandler();
+    $toastHandler->afficherToasts();
+
+    ?>
     <main class="contenu">
         <section class="container">
             <div class="title-section">
@@ -40,7 +47,6 @@ if (!isAdmin()) {
                 </div>
                 <?php include('display_users.php'); ?>
             </div>
-            <button class="button" onclick="afficherAlerte()">Afficher Alerte</button>
         </section>
         <div class="overlay" id="modifyUserPopup" style="display: none;">
             <div class="popup" id="modifyUserPopup">
@@ -49,6 +55,6 @@ if (!isAdmin()) {
         </div>
     </main>
 </body>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-<script src="../javascript/functions.js"></script>
+
+
 </html>

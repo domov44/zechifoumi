@@ -10,10 +10,18 @@ if (isAdmin()) {
 
         $stmt = $conn->prepare("DELETE FROM user WHERE id = ?");
         $stmt->bind_param("i", $user_id);
-        $stmt->execute();
+        $result = $stmt->execute(); 
 
         $stmt->close();
         $conn->close();
+
+        if ($result) {
+            $_SESSION['supp_reussie'] = true;
+        }
+
+        else {
+            $_SESSION['supp_echoue'] = true;
+        }
 
         header("Location: datatable.php");
         exit();

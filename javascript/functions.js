@@ -10,8 +10,18 @@ function showpassword() {
 
 
 function afficherToast(contenu, type) {
+    var baseImagePath = '';
+    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+        baseImagePath = '/zechifoumi/uploads/icon/';
+    } else {
+        baseImagePath = '/uploads/icon/';
+    }
+
+    var successImagePath = baseImagePath + 'cocher.svg';
+    var errorImagePath = baseImagePath + 'close.svg';
+
     Toastify({
-        avatar: type === "success" ? "../uploads/icon/cocher.svg" : "error" ? "../uploads/icon/close.svg" : "#FF5733",
+        avatar: type === "success" ? successImagePath : (type === "error" ? errorImagePath : "#FF5733"),
         text: contenu,
         duration: 3000,
         close: true,
@@ -20,13 +30,14 @@ function afficherToast(contenu, type) {
         stopOnFocus: true,
         style: {
             color: type === "success" ? "var(--success-color)" : "error" ? "rgb(255, 109, 116)" : "#FF5733",
-            background : type === "success" ? "var(--success-bg)" : "error" ? "rgba(250, 179, 169, 0.1)" : "#FF5733",
+            background: type === "success" ? "var(--success-bg)" : "error" ? "rgba(250, 179, 169, 0.1)" : "#FF5733",
             borderLeft: "2px solid",
             borderColor: type === "success" ? "var(--success-color)" : "error" ? "rgb(255, 109, 116)" : "#FF5733",
-            boxShadow : "none",
-          },
+            boxShadow: "none",
+        },
     }).showToast();
 }
+
 
 
 function togglePopup() {
@@ -59,8 +70,4 @@ function toggleModifyPopup(userId) {
         xmlhttp.open("GET", "modify_user.php?user_id=" + userId, true);
         xmlhttp.send();
     }
-}
-
-function afficherAlerte() {
-    afficherToast("Ceci est une alerte de test.", "error");
 }

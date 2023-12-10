@@ -14,10 +14,18 @@ if (isAdmin()) {
 
         $stmt = $conn->prepare("INSERT INTO user (pseudo, email, role, password) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssss", $pseudo, $email, $role, $password);
-        $stmt->execute();
+        $result = $stmt->execute(); 
 
         $stmt->close();
         $conn->close();
+
+        if ($result) {
+            $_SESSION['ajout_reussie'] = true;
+        }
+
+        else {
+            $_SESSION['ajout_echoue'] = true;
+        }
 
         header("Location: datatable.php");
         exit();
