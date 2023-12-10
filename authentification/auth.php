@@ -14,8 +14,6 @@ function authenticateUser($pseudo, $password)
         $row = $result->fetch_assoc();
 
         if (password_verify($password, $row['password'])) {
-            $token = bin2hex(random_bytes(16));
-            $_SESSION['token'] = $token;
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['avatar'] = $row['avatar'];
             $_SESSION['pseudo'] = $row['pseudo'];
@@ -26,7 +24,11 @@ function authenticateUser($pseudo, $password)
             $_SESSION['winstreak'] = $row['winstreak'];
             $_SESSION['bestwinstreak'] = $row['bestwinstreak'];
 
-            if ($row['role'] === 'Admin') {
+            if ($row['role'] === 'Player') {
+                $_SESSION['token'] = bin2hex(random_bytes(16));
+            }
+
+            else if ($row['role'] === 'Admin') {
                 $_SESSION['admin_token'] = bin2hex(random_bytes(16));
             }
 

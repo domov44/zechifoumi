@@ -1,12 +1,16 @@
 function showpassword() {
-    let field = document.getElementById('password')
+    let field = document.getElementById('password');
+    let eyeIcon = document.getElementById('eye-icon');
+
     if (field.type === "password") {
         field.type = "text";
+        eyeIcon.className = "fa-regular fa-eye";
     } else {
         field.type = "password";
+        eyeIcon.className = "fa-regular fa-eye-slash";
     }
-
 }
+
 
 
 function afficherToast(contenu, type) {

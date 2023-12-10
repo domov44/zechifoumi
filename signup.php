@@ -2,6 +2,7 @@
 require_once('authentification/db.php');
 require_once('authentification/auth.php');
 require_once('authentification/session.php');
+require_once 'class/Toasthandler.php';
 
 $message = "";
 $class = "";
@@ -24,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($stmt->execute()) {
                 if (authenticateUser($pseudo, $password)) {
                     session_start();
+                    $_SESSION['creation_compte_reussie'] = true;
                     $_SESSION['pseudo'] = $pseudo;
                     header("Location: index.php");
                     exit();
@@ -33,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             } else {
                 $message = "Error during registration. Please try again later.";
+                $_SESSION['creation_compte_echoue'] = true;
                 error_log("Error during registration: " . $stmt->error);
                 $class = "loose";
             }
@@ -41,10 +44,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $conn->close();
         } else {
             $message = "Invalid email address. Please provide a valid email address.";
+            $_SESSION['creation_compte_echoue'] = true;
             $class = "loose";
         }
     } else {
         $message = "Passwords do not match. Please enter them again.";
+        $_SESSION['creation_compte_echoue'] = true;
         $class = "loose";
     }
 }
@@ -66,10 +71,17 @@ if (isLoggedIn()) {
     <link href="style/footer.css" rel="stylesheet" />
     <link href="font/font.css" rel="stylesheet" />
     <link rel="icon" type="image/svg" href="animation\ventilateur.svg" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="javascript/functions.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 
 <body>
     <main class="contenu">
+        <?php
+        $toastHandler = new ToastHandler();
+        $toastHandler->afficherToasts();
+        ?>
         <section class="container">
             <div class="title-section">
                 <img src="animation/ventilateur.svg" alt="ventilator" class="icon">

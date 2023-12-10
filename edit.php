@@ -2,6 +2,7 @@
 require_once('authentification/db.php');
 require_once('authentification/auth.php');
 require_once('authentification/session.php');
+require_once 'class/ToastHandler.php';
 
 $message = "";
 $class = "";
@@ -26,10 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bind_param("ssssi", $pseudo, $avatar, $email, $passwordHash, $user_id);
 
             if ($stmt->execute()) {
+                $_SESSION['modification_reussie'] = true;
                 $_SESSION['pseudo'] = $pseudo;
                 header("Location: index.php");
                 exit();
             } else {
+                $_SESSION['modification_echoue'] = true;
                 $message = "Error modifying the account. Please try again later.";
                 error_log("Error modifying the account: " . $stmt->error);
                 $class = "loose";
@@ -38,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->close();
             $conn->close();
         } else {
+            $_SESSION['modification_echoue'] = true;
             $message = "Invalid email address. Please provide a valid email address.";
             $class = "loose";
         }
@@ -51,12 +55,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("sssi", $pseudo, $avatar, $email, $user_id);
 
         if ($stmt->execute()) {
+            $_SESSION['modification_reussie'] = true;
             $_SESSION['pseudo'] = $pseudo;
             $_SESSION['email'] = $email;
             $_SESSION['avatar'] = $avatar;
             header("Location: index.php");
             exit();
         } else {
+            $_SESSION['modification_echoue'] = true;
             $message = "Error modifying the account. Please try again later.";
             error_log("Error modifying the account: " . $stmt->error);
             $class = "loose";
@@ -65,6 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->close();
         $conn->close();
     } else {
+        $_SESSION['modification_echoue'] = true;
         $message = "Passwords do not match. Please enter them again.";
         $class = "loose";
     }
@@ -84,15 +91,22 @@ if (!isLoggedIn()) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup</title>
+    <title>Edit you account</title>
     <link href="style/style.css" rel="stylesheet" />
     <link href="style/footer.css" rel="stylesheet" />
     <link href="font/font.css" rel="stylesheet" />
     <link rel="icon" type="image/svg" href="animation\ventilateur.svg" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="javascript/functions.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 
 <body>
     <main class="contenu">
+        <?php
+        $toastHandler = new ToastHandler();
+        $toastHandler->afficherToasts();
+        ?>
         <section class="container">
             <div class="title-section">
                 <img src="animation/ventilateur.svg" alt="ventilator" class="icon">

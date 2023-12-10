@@ -2,7 +2,7 @@
 session_start();
 
 function isLoggedIn() {
-    return isset($_SESSION['token']);
+    return isset($_SESSION['token']) || isset($_SESSION['admin_token']);
 }
 
 function isAdmin() {

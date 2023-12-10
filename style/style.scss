@@ -181,6 +181,19 @@ body {
                     padding: 0 10px;
                     opacity: 1;
                 }
+
+                .field-button {
+                    padding: 10px;
+                    color: var(--paragraph);
+                    border: none;
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    right: 0;
+                    cursor: pointer;
+                    background: none;
+                    font-size: 1em;
+                  }
             }
         }
 

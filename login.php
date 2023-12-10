@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: index.php");
         exit();
     } else {
+        $_SESSION['connexion_echoue'] = true;
         $message = "Incorrect username or password. Please check your login credentials and try again.";
     }
 }
@@ -36,6 +37,9 @@ if (isLoggedIn()) {
     <link href="style/footer.css" rel="stylesheet" />
     <link href="font/font.css" rel="stylesheet" />
     <link rel="icon" type="image/svg" href="animation\ventilateur.svg" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="javascript/functions.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 
@@ -44,7 +48,6 @@ if (isLoggedIn()) {
         <?php
         $toastHandler = new ToastHandler();
         $toastHandler->afficherToasts();
-        var_dump($_SESSION['deconnexion_reussie']);
         ?>
         <section class="container">
             <div class="title-section">
@@ -57,12 +60,14 @@ if (isLoggedIn()) {
                 <form method="post" class="form">
                     <div class="input-container">
                         <div class="inputBox">
-                            <input class="input-text" id="pseudo" type="text" name="pseudo" minlength="2" maxlength="10" required>
+                            <input class="input-text" id="pseudo" type="text" name="pseudo" minlength="2" maxlength="10" required value="<?php echo isset($pseudo) ? htmlspecialchars($pseudo) : ''; ?>">
                             <label for="pseudo">Pseudo</label>
                         </div>
+
                         <div class="inputBox">
-                            <input class="input-text" id="password" type="password" name="password" required>
+                            <input class="input-text" id="password" type="password" name="password" required value="<?php echo isset($password) ? htmlspecialchars($password) : ''; ?>">
                             <label for="password">Password</label>
+                            <button type="button" id="show-password" class="field-button" onclick=showpassword()><i id="eye-icon" class="fa-regular fa-eye-slash"></i></button>
                         </div>
                         <?php if (!empty($message)) : ?>
                             <div class="loose" role="alert">
@@ -81,7 +86,6 @@ if (isLoggedIn()) {
         include('includes/footer.php');
         ?>
     </main>
-    <script src="javascript/functions.js"></script>
 </body>
 
 </html>
