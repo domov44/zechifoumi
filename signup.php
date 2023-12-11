@@ -2,7 +2,7 @@
 require_once('authentification/db.php');
 require_once('authentification/auth.php');
 require_once('authentification/session.php');
-require_once 'class/Toasthandler.php';
+require_once 'class/ToastHandler.php';
 
 $message = "";
 $class = "";

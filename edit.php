@@ -115,7 +115,7 @@ if (!isLoggedIn()) {
             </div>
             <div class="chifoumi-container">
                 <h2 class="title"><?php echo $_SESSION['pseudo']; ?>, edit your account</h2>
-                <form action="edit.php" method="post" class="form">
+                <form action="" method="post" class="form" onsubmit="this.action = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'edit.php' : 'edit'; return true;">
                     <div style="display: flex; gap:15px;">
                         <div class="avatar-choice">Choose your avatar
                             <input type="radio" id="samourai" name="avatar" value="https://zechifoumi.com/uploads/avatar/samourai.svg" checked />

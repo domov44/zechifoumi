@@ -13,6 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
     exit();
 }
 
+else {
+    // Indiquer que la déconnexion a échoué
+    $_SESSION['deconnexion_echoue'] = true;
+}
+
 // Rediriger vers la page d'accueil si l'utilisateur est connecté
 header("Location: index.php");
 exit();

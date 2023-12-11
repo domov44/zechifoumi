@@ -53,7 +53,7 @@ if (isAdmin()) {
 ?>
 
 <h2>Modify User</h2>
-<form class="form" action="modify_user.php" method="post">
+<form class="form" action="" method="post" onsubmit="this.action = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'modify_user.php' : 'modify_user'; return true;">
     <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
     <div class="input-container">
         <div class="inputBox">

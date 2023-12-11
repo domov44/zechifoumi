@@ -28,13 +28,13 @@ require_once 'class/Score.php';
         }
         ?>
         <div class="user-info-container">
-            <img class="user-avatar" src=<?php echo $_SESSION["avatar"]?> >
+            <img class="user-avatar" src=<?php echo $_SESSION["avatar"] ?>>
             <h5 class="title">
                 <?php echo $pseudo ?>
             </h5>
         </div>
         <a class="lien" href="edit.php">Edit account</a>
-        <form method="post" action="logout.php">
+        <form method="post" action="" onsubmit="this.action = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'logout.php' : 'logout'; return true;">
             <button class="lien" type="submit" name="logout">Logout ?</button>
         </form>
         <p class="scoring <?php echo isset($classeCSS) ? $classeCSS : 'egalite'; ?>">Score : <?php echo $userScore ?> - <?php echo $computerScore ?></p>

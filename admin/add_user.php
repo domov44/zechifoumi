@@ -34,7 +34,7 @@ if (isAdmin()) {
 ?>
 
 <h2>Add User</h2>
-<form class="form" action="add_user.php" method="post">
+<form class="form" action="" method="post"  onsubmit="this.action = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'add_user.php' : 'add_user'; return true;">
     <div class="input-container">
         <div class="inputBox">
             <input class="input-text" type="text" name="pseudo" required>
