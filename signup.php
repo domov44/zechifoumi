@@ -90,7 +90,7 @@ if (isLoggedIn()) {
             </div>
             <div class="chifoumi-container">
                 <h2 class="title">Sign up</h2>
-                <form action="signup.php" method="post" class="form">
+                <form method="post" class="form">
                     <div class="input-container">
                         <div class="inputBox">
                             <input class="input-text" id="pseudo" type="text" name="pseudo" minlength="2" maxlength="10" required>
