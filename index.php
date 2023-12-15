@@ -61,7 +61,7 @@ $_SESSION["game"] = $game;
             </div>
             <div class="chifoumi-container">
                 <div class="user-choice">
-                    <form class="form" action="result.php" method="post">
+                    <form class="form"onsubmit="this.action = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'result.php' : 'result'; return true;" method="post">
                         <div class="input-container">
                             <?php
                             echo '<input class="input-text" type="hidden" value="' . $pseudo . '" name="pseudo" placeholder="Your pseudo" minlength="2" maxlength="10" required>';

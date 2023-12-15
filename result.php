@@ -70,7 +70,7 @@
                         echo $game->valueComputerChoice;
                         ?>
                     </p>
-                    <form class="form" action="result.php" method="post">
+                    <form class="form" method="post">
                         <div class="input-container">
                             <?php
                             echo '<input class="input-text" type="hidden" value="' . $pseudo . '" name="pseudo" placeholder="Your pseudo" minlength="2" maxlength="10" required>';
