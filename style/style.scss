@@ -196,13 +196,13 @@ body {
                   }
             }
         }
-
-        .button-container {
-            display: flex;
-            flex-direction: row;
-            gap: 15px;
-        }
     }
+}
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
 }
 
 .title {

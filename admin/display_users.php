@@ -9,7 +9,7 @@ if (isAdmin()) {
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-        ?>
+?>
         <table border='1'>
             <tr>
                 <th>ID</th>
@@ -21,32 +21,32 @@ if (isAdmin()) {
                 <th>Role</th>
                 <th>Action</th>
             </tr>
-        <?php
-        while ($row = $result->fetch_assoc()) {
-            ?>
-            <tr>
-                <td><?= $row['id'] ?></td>
-                <td><?= $row['creation'] ?></td>
-                <td><?= $row['pseudo'] ?></td>
-                <td><?= $row['email'] ?></td>
-                <td><?= $row['user_score'] ?></td>
-                <td><?= $row['computer_score'] ?></td>
-                <td><?= $row['role'] ?></td>
-                <td>
-                    <div>
-                        <button class='button' type='button' style='width:fit-content' onclick='toggleModifyPopup(<?= $row['id'] ?>)'><i class='fas fa-pencil-alt'></i></button>
-                        <form action='' method='post' onsubmit="this.action = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'delete_user.php' : 'delete_user'; return true;">
-                            <input type='hidden' name='user_id' value='<?= $row['id'] ?>'>
-                            <button class='button' type='submit'><i class='far fa-trash-alt'></i></button>
-                        </form>
-                    </div>
-                </td>
-            </tr>
             <?php
-        }
-        ?>
+            while ($row = $result->fetch_assoc()) {
+            ?>
+                <tr>
+                    <td><?= $row['id'] ?></td>
+                    <td><?= $row['creation'] ?></td>
+                    <td><?= $row['pseudo'] ?></td>
+                    <td><?= $row['email'] ?></td>
+                    <td><?= $row['user_score'] ?></td>
+                    <td><?= $row['computer_score'] ?></td>
+                    <td><?= $row['role'] ?></td>
+                    <td>
+                        <div>
+                            <button class='button' type='button' style='width:fit-content' onclick='toggleModifyPopup(<?= $row['id'] ?>)'><i class='fas fa-pencil-alt'></i></button>
+                            <form action='delete_user' method='post' class='deleteForm'>
+                                <input type='hidden' name='user_id' value='<?= $row['id'] ?>'>
+                                <button class='button' type='button' onclick='confirmDelete(<?= $row['id'] ?>)'><i class='far fa-trash-alt'></i></button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            <?php
+            }
+            ?>
         </table>
-        <?php
+<?php
     } else {
         echo "Aucun utilisateur trouvé.";
     }

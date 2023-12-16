@@ -186,7 +186,8 @@ body .form .input-container .inputBox .field-button {
   background: none;
   font-size: 1em;
 }
-body .form .button-container {
+
+.button-container {
   display: flex;
   flex-direction: row;
   gap: 15px;
