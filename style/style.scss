@@ -7,13 +7,14 @@
     --bg-color: #131014;
     --secondary-bg-color: #010A04;
     --main-color: #F8046B;
+    --bg-tonal: #f8046a2d;
     --secondary-color: #8E0D53;
     --paragraph: #D898DB;
     --color-title: #eeb8e6;
-    --success-color:rgb(80, 227, 194);
-    --success-bg:#192526;
-    --error-color:rgb(255, 109, 116);
-    --error-bg:#2B2023;
+    --success-color: rgb(80, 227, 194);
+    --success-bg: #192526;
+    --error-color: rgb(255, 109, 116);
+    --error-bg: #2B2023;
 }
 
 ::selection {
@@ -21,6 +22,21 @@
     color: var(--secondary-bg-color);
 }
 
+
+.chip {
+    padding: 6px 10px;
+    border-radius: 50px;
+
+    &.primary {
+        color: var(--main-color);
+        background: var(--bg-tonal);
+    }
+
+    &.success {
+        color: var(--success-color);
+        background: var(--success-bg);
+    }
+}
 
 
 
@@ -193,7 +209,7 @@ body {
                     cursor: pointer;
                     background: none;
                     font-size: 1em;
-                  }
+                }
             }
         }
 
