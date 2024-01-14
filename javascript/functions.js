@@ -50,7 +50,7 @@ function togglePopup() {
 
     if (popup.style.display === "block") {
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
+        xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById("popupContent").innerHTML = this.responseText;
             }
@@ -66,7 +66,7 @@ function toggleModifyPopup(userId) {
 
     if (modifyPopup.style.display === "block") {
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
+        xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById("EditContent").innerHTML = this.responseText;
             }
@@ -74,4 +74,65 @@ function toggleModifyPopup(userId) {
         xmlhttp.open("GET", "modify_user.php?user_id=" + userId, true);
         xmlhttp.send();
     }
+}
+
+function showModal(title, text, callback) {
+    var overlay = document.createElement('div');
+    overlay.className = 'overlay';
+
+    var modal = document.createElement('div');
+    modal.className = 'popup';
+    modal.innerHTML = `
+        <h2>${title}</h2>
+        <p>${text}</p>
+        <div class="button-container">
+        <button class="button-secondary" id="cancelBtn">No, cancel</button>
+        <button class="button" id="confirmBtn">Yes, confirm</button>
+        </div>
+    `;
+
+    overlay.onclick = function () {
+        hideModal(overlay, modal);
+        callback(false);
+    };
+
+    modal.querySelector('#cancelBtn').onclick = function () {
+        hideModal(overlay, modal);
+        callback(false);
+    };
+
+    modal.querySelector('#confirmBtn').onclick = function () {
+        hideModal(overlay, modal);
+        callback(true);
+    };
+
+    overlay.appendChild(modal);
+
+    document.body.appendChild(overlay);
+
+    overlay.style.display = 'block';
+    modal.style.display = 'block';
+}
+
+function hideModal(overlay, modal) {
+    overlay.style.display = 'none';
+    modal.style.display = 'none';
+
+    if (overlay.parentNode) {
+        overlay.parentNode.removeChild(overlay);
+    }
+
+    if (modal.parentNode) {
+        modal.parentNode.removeChild(modal);
+    }
+}
+
+
+function confirmDelete(userId) {
+    showModal('Deletion Confirmation', 'Are you sure you want to delete this user?', function (confirmed) {
+        if (confirmed) {
+            document.querySelector('.deleteForm input[name="user_id"]').value = userId;
+            document.querySelector('.deleteForm').submit();
+        }
+    });
 }
