@@ -7,16 +7,32 @@
     <link href="style/style.css" rel="stylesheet" />
     <link href="style/footer.css" rel="stylesheet" />
     <link href="font/font.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.3/lottie.min.js"></script>
+    <script src="javascript/functions.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <link rel="icon" type="image/svg" href="animation\ventilateur.svg" />
     <title>Chifoumi</title>
+
 </head>
+
 <?php
-session_start();
 require_once 'class/GameInstance.php';
 require_once 'class/Player.php';
+require_once 'class/CreateDB.php';
+require_once('authentification/session.php');
+require_once 'class/ToastHandler.php';
+
+$connexion = new CreateDB();
 $game = new GameInstance();
 $player = new Player();
+$pseudo = $player->username;
+
+if (!isLoggedIn()) {
+    header("Location: login.php");
+    exit();
+}
 
 if (!isset($_SESSION['score'])) {
     $_SESSION['score'] = ['user' => 0, 'ia' => 0];
@@ -26,13 +42,6 @@ if (!isset($_SESSION['winStreak'])) {
     $_SESSION['winStreak'] = 0;
 }
 
-if (!isset($_SESSION['pseudo'])) {
-    $_SESSION['pseudo'] = "";
-}
-
-
-$player->register($_SESSION["pseudo"]);
-
 $game->startChifoumi();
 $_SESSION["game"] = $game;
 
@@ -40,6 +49,10 @@ $_SESSION["game"] = $game;
 
 <body>
     <main class="contenu">
+        <?php
+        $toastHandler = new ToastHandler();
+        $toastHandler->afficherToasts();
+        ?>
         <section class="container">
             <div class="title-section">
                 <img src="animation/ventilateur.svg" alt="ventilator" class="icon">
@@ -48,10 +61,10 @@ $_SESSION["game"] = $game;
             </div>
             <div class="chifoumi-container">
                 <div class="user-choice">
-                    <form class="form" action="result.php" method="post">
+                    <form class="form"onsubmit="this.action = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'result.php' : 'result'; return true;" method="post">
                         <div class="input-container">
                             <?php
-                            echo '<input class="input-text" type="text" value="' . $player->username . '" name="pseudo" placeholder="Your pseudo" minlength="2" maxlength="10" required>';
+                            echo '<input class="input-text" type="hidden" value="' . $pseudo . '" name="pseudo" placeholder="Your pseudo" minlength="2" maxlength="10" required>';
                             ?>
                         </div>
                         <div class="button-container">

@@ -1,6 +1,7 @@
 <?php
 require_once 'choice.php';
 require_once 'Player.php';
+require_once 'CreateDB.php';
 
 class GameInstance
 {
@@ -29,50 +30,6 @@ class GameInstance
         $this->result = $this->compareChoice($this->valueComputerChoice, $userchoice, $nemesisComputer);
     }
 
-
-    public function createJsonDB()
-    {
-        if (!file_exists("storage")) {
-            mkdir("storage", 0777, true);
-        }
-
-        $filename = "storage/data.json";
-        $pseudo = $_SESSION["pseudo"];
-
-        if (file_exists($filename)) {
-            $content = file_get_contents($filename);
-            $contentd = json_decode($content, true);
-        } else {
-            $contentd = array();
-        }
-
-        $found = false;
-        $bestwinstreak = 0;
-
-        foreach ($contentd as &$value) {
-            if ($value["pseudo"] === $pseudo) {
-                $value['score'] = $_SESSION['score']['user'] . "-" . $_SESSION['score']['ia'];
-                $value['winstreak'] = $_SESSION['winStreak'];
-                $value['bestWinstreak'] = max($value['bestWinstreak'], $_SESSION['winStreak']);
-                $found = true;
-                break;
-            }
-        }
-
-        if (!$found) {
-            $newData = array(
-                "pseudo" => $pseudo,
-                "score" => $_SESSION['score']['user'] . "-" . $_SESSION['score']['ia'],
-                "winstreak" => $_SESSION['winStreak'],
-                "bestWinstreak" => $bestwinstreak
-            );
-            $contentd[] = $newData;
-        }
-
-
-        file_put_contents($filename, json_encode($contentd));
-    }
-
     public function getLeaderboard()
     {
         $filename = "storage/data.json";
@@ -82,22 +39,23 @@ class GameInstance
             $data = json_decode($content, true);
         } else {
             $data = array();
+            var_dump('tets');
         }
 
         $leaderboard = array();
 
         foreach ($data as $key => $value) {
-            if (isset($value['bestWinstreak'])) {
+            if (isset($value['bestwinstreak'])) {
                 $leaderboard[] = array(
                     'rank' => 0,
                     'pseudo' => $value['pseudo'],
-                    'bestWinstreak' => $value['bestWinstreak']
+                    'bestwinstreak' => $value['bestwinstreak']
                 );
             }
         }
 
         usort($leaderboard, function ($a, $b) {
-            return $b['bestWinstreak'] - $a['bestWinstreak'];
+            return $b['bestwinstreak'] - $a['bestwinstreak'];
         });
 
         $rank = 1;
@@ -125,15 +83,16 @@ class GameInstance
     function compareChoice($valueComputerChoice, $userchoice, $nemesisComputer)
     {
         if ($valueComputerChoice == $userchoice) {
-            $_SESSION['winStreak'] = 0;
+            $_SESSION['winstreak'] = 0;
             return "Egality";
         } elseif ($userchoice == $nemesisComputer) {
-            $_SESSION['score']['user']++;
-            $_SESSION['winStreak']++;
+            $_SESSION['user_score']++;
+            $_SESSION['winstreak']++;
+            $_SESSION['bestwinstreak'] = max($_SESSION['bestwinstreak'], $_SESSION['winstreak']);
             return "You won !";
         } else {
-            $_SESSION['score']['ia']++;
-            $_SESSION['winStreak'] = 0;
+            $_SESSION['computer_score']++;
+            $_SESSION['winstreak'] = 0;
             return "You lost..";
         }
     }

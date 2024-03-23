@@ -1,9 +1,14 @@
 <?php
-session_start();
 require_once 'class/GameInstance.php';
+require_once('authentification/session.php');
+
+if (!isLoggedIn()) {
+    header("Location: login.php");
+    exit();
+}
+
 $game = new GameInstance();
 $player = new Player();
-$player->register($_SESSION["pseudo"]);
 $_SESSION["game"] = $game;
 
 // Obtenez le leaderboard à partir de la méthode getLeaderboard()
@@ -41,7 +46,7 @@ $leaderboard = $game->getLeaderboard();
                     foreach ($leaderboard as $rankedPlayer) {
                         $rank = $rankedPlayer['rank'];
                         $pseudo = $rankedPlayer['pseudo'];
-                        $bestWinstreak = $rankedPlayer['bestWinstreak'];
+                        $bestWinstreak = $rankedPlayer['bestwinstreak'];
 
                         if ($rank <= 5) {
                             $headerTag = "h" . ($rank + 1);

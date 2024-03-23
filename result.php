@@ -13,15 +13,29 @@
 </head>
 
 <body>
-
-    <?php
-    session_start();
+<?php
     require_once 'class/GameInstance.php';
     require_once 'class/Player.php';
+    require_once 'class/CreateDB.php';
+    require_once('authentification/session.php');
+
+    if (!isLoggedIn()) {
+        header("Location: login.php");
+        exit();
+    }
+
     $game = new GameInstance();
     $player = new Player();
-    $player->register($_POST["pseudo"]);
+    $pseudo = $player->username;
+
+    // Process game result and update session variables
     $game->play($_POST["submit"]);
+
+    // Update database and JSON file
+    $connexion = new CreateDB();
+    $connexion->WriteData($pseudo);
+    
+
     ?>
     <main class="contenu">
         <section class="container">
@@ -50,16 +64,16 @@
                         echo $_POST["submit"];
                         ?>
                     </p>
-                    <h2 class="title">The AI have chosen..</h2>
+                    <h2 class="title">The AI has chosen..</h2>
                     <p class="paragraph">
                         <?php
                         echo $game->valueComputerChoice;
                         ?>
                     </p>
-                    <form class="form" action="result.php" method="post">
+                    <form class="form" method="post">
                         <div class="input-container">
                             <?php
-                            echo '<input class="input-text" type="text" value="' . $player->username . '" name="pseudo" placeholder="Your pseudo" minlength="2" maxlength="10" required>';
+                            echo '<input class="input-text" type="hidden" value="' . $pseudo . '" name="pseudo" placeholder="Your pseudo" minlength="2" maxlength="10" required>';
                             ?>
                         </div>
                         <div class="button-container">

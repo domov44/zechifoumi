@@ -1,11 +1,14 @@
-<?php 
+<?php
 class Player
 {
     public $username;
 
-    public function register($pseudo)
+    public function __construct()
     {
-        $this->username = $pseudo;
-        $_SESSION['pseudo'] = $pseudo;
+        if (isset($_SESSION['pseudo'])) {
+            $this->username = $_SESSION['pseudo'];
+        } else {
+            $this->username = "";
+        }
     }
 }

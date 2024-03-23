@@ -6,10 +6,15 @@
 :root {
   --bg-color: #131014;
   --secondary-bg-color: #010A04;
+  --bg-tonal: #2D0816;
   --main-color: #F8046B;
   --secondary-color: #8E0D53;
   --paragraph: #D898DB;
-  --color-title: #DF95D4;
+  --color-title: #eeb8e6;
+  --success-color:rgb(80, 227, 194);
+  --success-bg:#192526;
+  --error-color:rgb(255, 109, 116);
+  --error-bg:#2B2023;
 }
 
 ::-moz-selection {
@@ -38,9 +43,18 @@ a {
   position: relative;
   color: var(--color-title);
   display: inline-block;
-  padding-top: 1px;
+  padding: 1px 0px 0px 0px;
   padding-bottom: 1px;
   line-height: 1.2;
+  width: -moz-fit-content;
+  width: fit-content;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 17px;
 }
 
 .lien::after {
@@ -97,37 +111,84 @@ body .contenu .chifoumi-container {
   padding: 30px;
   background: var(--secondary-bg-color);
   display: flex;
+  max-width: 500px;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   gap: 15px;
-  max-width: 800px;
   border: solid 2px var(--secondary-color);
-  border-radius: 35px;
+  border-radius: 8px;
+}
+body .contenu .table-container {
+  padding: 30px;
+  background: var(--secondary-bg-color);
+  display: flex;
+  min-width: 500px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+  border: solid 2px var(--secondary-color);
+  border-radius: 8px;
 }
 body .form {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  width: 100%;
 }
 body .form .input-container {
   display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-body .form .input-container .input-text {
+body .form .input-container .inputBox {
+  position: relative;
+}
+body .form .input-container .inputBox .input-text {
   width: 100%;
   font-size: 20px;
   background: var(--bg-color);
-  border: 1px solid var(--bg-color);
-  border-radius: 50px;
-  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  padding: 25px 12px 8px 12px;
   color: var(--paragraph);
   outline: none;
   transition: border-color 0.1s ease;
 }
-body .form .input-container .input-text:focus {
-  border-color: var(--main-color);
+body .form .input-container .inputBox label {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  padding: 10px;
+  pointer-events: none;
+  font-size: 20px;
+  color: var(--paragraph);
+  transition: 0.2s ease-in-out;
+  border-radius: 5px;
+  opacity: 0.4;
 }
-body .form .button-container {
+body .form .input-container .inputBox .input-text:valid ~ label,
+body .form .input-container .inputBox .input-text:focus ~ label {
+  color: var(--main-color);
+  transform: translateY(-25px);
+  font-size: 0.85em;
+  padding: 0 10px;
+  opacity: 1;
+}
+body .form .input-container .inputBox .field-button {
+  padding: 10px;
+  color: var(--paragraph);
+  border: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  cursor: pointer;
+  background: none;
+  font-size: 1em;
+}
+
+.button-container {
   display: flex;
   flex-direction: row;
   gap: 15px;
@@ -139,7 +200,7 @@ body .form .button-container {
 }
 
 h2.leaderboard {
-  color: rgb(80, 227, 194);
+  color: var(--success-color);
 }
 
 h1 {
@@ -147,11 +208,11 @@ h1 {
 }
 
 h2 {
-  font-size: 30px;
+  font-size: 25px;
 }
 
 h3 {
-  font-size: 25px;
+  font-size: 23px;
 }
 
 h4 {
@@ -178,7 +239,9 @@ h6 {
   margin-bottom: 30px;
 }
 
-.title-section .win, .title-section .loose, .title-section .egalite {
+.title-section .win,
+.title-section .loose,
+.title-section .egalite {
   animation: announce 0.7s linear forwards;
 }
 
@@ -197,15 +260,15 @@ h6 {
   }
 }
 .win {
-  border-color: rgb(80, 227, 194);
-  color: rgb(80, 227, 194);
-  background: rgba(80, 227, 194, 0.1);
+  border-color: var(--success-color);
+  color: var(--success-color);
+  background: var(--success-bg);
 }
 
 .loose {
-  border-color: rgb(255, 109, 116);
-  color: rgb(255, 109, 116);
-  background: rgba(250, 179, 169, 0.1);
+  border-color: var(--error-color);
+  color: var(--error-color);
+  background: var(--error-bg);
 }
 
 .egalite {
@@ -215,6 +278,7 @@ h6 {
 }
 
 .button {
+  text-align: center;
   background: var(--main-color);
   color: var(--secondary-bg-color);
   cursor: pointer;
@@ -233,6 +297,29 @@ h6 {
 }
 .button:active {
   box-shadow: 0px 0px var(--secondary-color);
+  transform: translate(0px, 5px);
+}
+
+.button-secondary {
+  text-align: center;
+  background: var(--color-title);
+  color: var(--secondary-bg-color);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0px 5px var(--paragraph);
+  padding: 8px 14px;
+  transition: 0.15s ease-in-out;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 20px;
+  width: 100%;
+}
+.button-secondary:hover {
+  box-shadow: 0px 4px var(--paragraph);
+  transform: translate(0px, 1px);
+}
+.button-secondary:active {
+  box-shadow: 0px 0px var(--paragraph);
   transform: translate(0px, 5px);
 }
 
@@ -281,6 +368,98 @@ h6 {
   border-radius: 5px;
   margin-bottom: 15px;
   font-family: "Dela Gothic One", sans-serif;
+}
+
+.user-info-container {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  height: 25px;
+}
+.user-info-container .user-avatar {
+  max-height: 100%;
+  width: auto;
+}
+
+.avatar-choice input[type=radio] {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+.avatar-label {
+  display: block;
+  padding: 10px;
+  border: 1px solid var(--color-title);
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.avatar-choice {
+  width: 100%;
+}
+
+.avatar-choice label img {
+  max-height: 50px;
+  display: block;
+}
+
+.avatar-choice input[type=radio]:checked + .avatar-label {
+  border-color: var(--main-color);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+}
+.overlay .popup {
+  min-width: 500px;
+  position: absolute;
+  padding: 50px;
+  background: var(--secondary-bg-color);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
+}
+
+table {
+  border-collapse: collapse;
+  border-color: var(--bg-color);
+}
+
+tr th,
+tr td {
+  padding: 8px 10px;
+  text-align: center;
+  border: none;
+  border-bottom: 1px var(--bg-color) solid;
+}
+tr th div,
+tr td div {
+  display: flex;
+  gap: 10px;
+}
+
+.chip {
+  padding: 6px 10px;
+  border-radius: 50px;
+}
+.chip.primary {
+  color: var(--main-color);
+  background: var(--bg-tonal);
+}
+.chip.success {
+  color: var(--success-color);
+  background: var(--success-bg);
 }
 
 @keyframes bounce {
