@@ -5,3 +5,11 @@
         </div>
     </div>
 </footer>
+
+</main>
+</body>
+<script src="animation/animation.js"></script>
+<script src="animation/logo/logo.js"></script>
+<script src="javascript/sidebar.js"></script>
+
+</html>

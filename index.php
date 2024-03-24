@@ -46,50 +46,43 @@ $game->startChifoumi();
 $_SESSION["game"] = $game;
 
 ?>
+<?php
+include('includes/header.php');
+?>
 
 <body>
     <?php
-    include('includes/header.php');
+    $toastHandler = new ToastHandler();
+    $toastHandler->afficherToasts();
     ?>
-    <main class="contenu">
-        <?php
-        $toastHandler = new ToastHandler();
-        $toastHandler->afficherToasts();
-        ?>
-        <section class="container">
-            <div class="title-section">
-                <img src="animation/ventilateur.svg" alt="ventilator" class="icon">
-                <h1 class="title">The chifoumi game</h1>
-                <img src="animation/ventilateur.svg" alt="ventilator" class="icon">
+    <section class="section">
+        <div class="title-section">
+            <img src="animation/ventilateur.svg" alt="ventilator" class="icon">
+            <h1 class="title">The chifoumi game</h1>
+            <img src="animation/ventilateur.svg" alt="ventilator" class="icon">
+        </div>
+        <div class="chifoumi-container">
+            <div class="user-choice">
+                <form class="form" onsubmit="this.action = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'result.php' : 'result'; return true;" method="post">
+                    <div class="input-container">
+                        <?php
+                        echo '<input class="input-text" type="hidden" value="' . $pseudo . '" name="pseudo" placeholder="Your pseudo" minlength="2" maxlength="10" required>';
+                        ?>
+                    </div>
+                    <div class="button-container">
+                        <?php
+                        foreach ($game->choices as $choice) {
+                            echo '<input type="submit" name="submit" value="' . $choice->value . '" class="button">';
+                        }
+                        ?>
+                    </div>
+                </form>
             </div>
-            <div class="chifoumi-container">
-                <div class="user-choice">
-                    <form class="form" onsubmit="this.action = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'result.php' : 'result'; return true;" method="post">
-                        <div class="input-container">
-                            <?php
-                            echo '<input class="input-text" type="hidden" value="' . $pseudo . '" name="pseudo" placeholder="Your pseudo" minlength="2" maxlength="10" required>';
-                            ?>
-                        </div>
-                        <div class="button-container">
-                            <?php
-                            foreach ($game->choices as $choice) {
-                                echo '<input type="submit" name="submit" value="' . $choice->value . '" class="button">';
-                            }
-                            ?>
-                        </div>
-                    </form>
-                </div>
-                <div class="illustration">
-                    <div id="lottie"></div>
-                </div>
+            <div class="illustration">
+                <div id="lottie"></div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
     <?php
     include('includes/footer.php');
     ?>
-</body>
-<script src="animation/animation.js"></script>
-<script src="animation/logo/logo.js"></script>
-
-</html>

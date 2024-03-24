@@ -11,10 +11,10 @@
     --secondary-color: #8E0D53;
     --paragraph: #D898DB;
     --color-title: #eeb8e6;
-    --success-color:rgb(80, 227, 194);
-    --success-bg:#192526;
-    --error-color:rgb(255, 109, 116);
-    --error-bg:#2B2023;
+    --success-color: rgb(80, 227, 194);
+    --success-bg: #192526;
+    --error-color: rgb(255, 109, 116);
+    --error-bg: #2B2023;
 }
 
 ::selection {
@@ -22,7 +22,29 @@
     color: var(--secondary-bg-color);
 }
 
+.section {
+    margin-top: 50px;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: calc(-130px + 80vh);
+    width: 100%;
+    gap: 30px;
+    align-items: center;
+}
 
+.header {
+    z-index: 10;
+    flex-direction: row;
+    top: 30px;
+    width: 100%;
+    position: sticky;
+    max-width: 1200px;
+    display: flex;
+    pointer-events: none;
+    justify-content: space-between;
+}
 
 
 p {
@@ -73,69 +95,73 @@ a {
     width: 0%;
 }
 
+.w-aside {
+    margin-left: 280px;
+    transition: 0.2s ease-in-out;
+}
+
 body {
     background: var(--bg-color);
-    min-height: 100vh;
     margin: 0;
     color: var(--paragraph);
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 
-    .contenu {
+    .content {
         display: flex;
         flex-direction: column;
+        padding: 0px 5%;
         align-items: center;
         justify-content: center;
+        min-height: 100vh;
+        width: 100%;
+    }
 
-        .title-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 30px;
+    .title-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 30px;
 
-            .icon {
-                height: 35px;
-                animation: linear infinite entry-icon 5s
+        .icon {
+            height: 35px;
+            animation: linear infinite entry-icon 5s
+        }
+
+        @keyframes entry-icon {
+            from {
+                transform: rotate(0deg);
             }
 
-            @keyframes entry-icon {
-                from {
-                    transform: rotate(0deg);
-                }
-
-                to {
-                    transform: rotate(360deg);
-                }
-
+            to {
+                transform: rotate(360deg);
             }
-        }
 
-        .chifoumi-container {
-            padding: 30px;
-            background: var(--secondary-bg-color);
-            display: flex;
-            max-width: 500px;
-            flex-direction: column;
-            justify-content: center;
-            gap: 15px;
-            border: solid 2px var(--secondary-color);
-            border-radius: 8px;
         }
+    }
 
-        .table-container {
-            padding: 30px;
-            background: var(--secondary-bg-color);
-            display: flex;
-            min-width: 500px;
-            flex-direction: column;
-            justify-content: center;
-            gap: 15px;
-            border: solid 2px var(--secondary-color);
-            border-radius: 8px;
-        }
+    .chifoumi-container {
+        padding: 30px;
+        width: 100%;
+        background: var(--secondary-bg-color);
+        display: flex;
+        max-width: 500px;
+        flex-direction: column;
+        justify-content: center;
+        gap: 15px;
+        border: solid 2px var(--secondary-color);
+        border-radius: 8px;
+    }
 
+    .table-container {
+        padding: 30px;
+        background: var(--secondary-bg-color);
+        display: flex;
+        min-width: 500px;
+        flex-direction: column;
+        justify-content: center;
+        gap: 15px;
+        border: solid 2px var(--secondary-color);
+        border-radius: 8px;
     }
 
     .form {
@@ -198,7 +224,7 @@ body {
                     cursor: pointer;
                     background: none;
                     font-size: 1em;
-                  }
+                }
             }
         }
     }
@@ -255,9 +281,19 @@ h6 {
     margin-bottom: 30px;
 }
 
-.title-section .win,
-.title-section .loose,
-.title-section .egalite {
+
+.result {
+
+    .win,
+    .loose,
+    .egalite {
+        margin: 0;
+    }
+}
+
+.result .win,
+.result .loose,
+.result .egalite {
     animation: announce 0.7s linear forwards;
 }
 
@@ -296,6 +332,14 @@ h6 {
     border-color: white;
     color: white;
     background: rgba(250, 179, 169, 0.1);
+}
+
+.fit-content {
+    width: fit-content !important;
+}
+
+.pointer-events-fill {
+    pointer-events: fill;
 }
 
 .button {
@@ -360,48 +404,54 @@ h6 {
 }
 
 .logo {
-    position: fixed;
-    top: 30px;
-    left: 30px;
     width: 80px;
+}
+
+.aside {
+    width: 280px;
+    transform: translateX(0%);
+    overflow-y: auto;
+    transition: 0.2s;
+    background-color: var(--bg-color);
+    border-right: 2px solid var(--secondary-bg-color);
+    position: fixed;
+    padding: 15px;
+    z-index: 2;
+    height: 100%;
+}
+
+.winstreak {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+    display: none;
+    color: var(--secondary-bg-color);
+    background: var(--main-color);
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-family: 'Dela Gothic One', sans-serif;
+}
+
+
+.winstreak.visible {
+    display: block;
+    animation: bounce infinite alternate 0.5s;
 }
 
 .interaction {
     padding: 8px 12px;
     border-radius: 5px;
-    position: fixed;
-    top: 30px;
-    right: 30px;
+}
 
-    .winstreak {
-        margin-top: 15px;
-        margin-bottom: 15px;
-        text-align: center;
-        visibility: hidden;
-        color: var(--secondary-bg-color);
-        background: var(--main-color);
-        padding: 5px 8px;
-        border-radius: 5px;
-        font-family: 'Dela Gothic One', sans-serif;
-    }
-
-
-    .winstreak.visible {
-        visibility: visible;
-        animation: bounce infinite alternate 0.5s;
-    }
-
-    .scoring {
-        width: fit-content;
-        padding: 8px 12px;
-        border-radius: 5px;
-        margin-bottom: 15px;
-        font-family: 'Dela Gothic One', sans-serif;
-    }
+.scoring {
+    width: fit-content;
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-family: 'Dela Gothic One', sans-serif;
 }
 
 .user-info-container {
-    align-items: center;
     display: flex;
     gap: 10px;
     height: 25px;
@@ -439,6 +489,40 @@ h6 {
     border-color: var(--main-color);
 }
 
+.menu{
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    padding: 0;
+
+    li{
+        list-style:none;
+    }
+}
+
+.nav-item {
+    color: var(--paragraph);
+    line-height: 0;
+    width: 100%;
+    padding: 12px 18px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out 0s;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    cursor: pointer;
+    border: none;
+    list-style: none;
+    font-size: 20px;
+    display: flex;
+    overflow: hidden;
+    background: transparent;
+    line-height: 0;
+
+    &:hover{
+        background: #6b2a4542;
+    }
+}
 
 .overlay {
     position: fixed;

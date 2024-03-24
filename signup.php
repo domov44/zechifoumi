@@ -105,12 +105,12 @@ if (isLoggedIn()) {
 </head>
 
 <body>
-    <main class="contenu">
+    <main class="content">
         <?php
         $toastHandler = new ToastHandler();
         $toastHandler->afficherToasts();
         ?>
-        <section class="container">
+        <section class="section">
             <div class="title-section">
                 <img src="animation/ventilateur.svg" alt="ventilator" class="icon">
                 <h1 class="title">The chifoumi game</h1>
@@ -157,7 +157,3 @@ if (isLoggedIn()) {
         <?php
         include('includes/footer.php');
         ?>
-    </main>
-</body>
-
-</html>

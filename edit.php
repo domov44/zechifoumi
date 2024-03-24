@@ -99,85 +99,100 @@ if (!isLoggedIn()) {
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <script src="javascript/functions.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.3/lottie.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 
 <body>
-    <main class="contenu">
-        <?php
-        $toastHandler = new ToastHandler();
-        $toastHandler->afficherToasts();
-        ?>
-        <section class="container">
-            <div class="title-section">
-                <img src="animation/ventilateur.svg" alt="ventilator" class="icon">
-                <h1 class="title">The chifoumi game</h1>
-                <img src="animation/ventilateur.svg" alt="ventilator" class="icon">
-            </div>
-            <div class="chifoumi-container">
-                <h2 class="title"><?php echo $_SESSION['pseudo']; ?>, edit your account</h2>
-                <form action="" method="post" class="form" onsubmit="this.action = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'edit.php' : 'edit'; return true;">
-                    <div style="display: flex; gap:15px;">
-                        <div class="avatar-choice">Choose your avatar
-                            <input type="radio" id="samourai" name="avatar" value="https://zechifoumi.com/uploads/avatar/samourai.svg" checked />
-                            <label class="avatar-label" for="samourai">
-                                <img src="https://zechifoumi.com/uploads/avatar/samourai.svg">
-                                <div>Samourai</div>
-                            </label>
-                        </div>
-                        <div class="avatar-choice">
-                            <input type="radio" id="samourai-2" name="avatar" value="https://zechifoumi.com/uploads/avatar/samourai-2.svg" />
-                            <label class="avatar-label" for="samourai-2">
-                                <img src="https://zechifoumi.com/uploads/avatar/samourai-2.svg">
-                                <div>Samourai 2</div>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <div class="inputBox">
-                            <input class="input-text" id="pseudo" type="text" name="pseudo" value="<?php echo $_SESSION['pseudo']; ?>" minlength="2" maxlength="10" required>
-                            <label for="pseudo">Pseudo</label>
-                        </div>
-                        <div class="inputBox">
-                            <input class="input-text" id="email" type="email" name="email" value="<?php echo $_SESSION['email']; ?>" required>
-                            <label for="pseudo">Email</label>
-                        </div>
-                        <div class="inputBox">
-                            <input class="input-text" type="password" id="password" name="password" placeholder="New password">
-                            <label for="pseudo">Password</label>
-                            <button type="button" class="field-button" onclick="showPassword('password', 'eye-icon')">
-                                <i id="eye-icon" class="fa-regular fa-eye-slash"></i>
-                            </button>
-                        </div>
-                        <div class="inputBox">
-                            <input class="input-text" type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your new password">
-                            <label for="pseudo">Confirm password</label>
-                            <button type="button" class="field-button" onclick="showPassword('confirm_password', 'eye-icon-confirm')">
-                                <i id="eye-icon-confirm" class="fa-regular fa-eye-slash"></i>
-                            </button>
-                        </div>
-                        <?php if (!empty($message) && $class === "loose") : ?>
-                            <div class="loose" role="alert">
-                                <strong class="font-bold">Error !</strong>
-                                <span><?php echo $message; ?></span>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                    <button type="submit" class="button">Update change</button>
-                    <a class="button-secondary" href="index.php">Cancel</a>
-                </form>
-                <form action="delete_account" method="post" class="loose deleteForm">
-                    <h4 class="font-bold">Danger zone</h4>
-                    <input type="hidden" name="user_id" value='<?= $_SESSION['user_id'] ?>'>
-                    <button type="button" class="button" onclick="confirmDelete(<?= $_SESSION['user_id'] ?>, 'Do you really want to delete your account?')">Delete my account</button>
-                </form>
 
-            </div>
-        </section>
-        <?php
-        include('includes/footer.php');
-        ?>
-    </main>
-</body>
+    <?php
+    require_once 'class/GameInstance.php';
+    require_once 'class/Player.php';
+    require_once 'class/CreateDB.php';
+    require_once('authentification/session.php');
 
-</html>
+    if (!isLoggedIn()) {
+        header("Location: login.php");
+        exit();
+    }
+
+    $game = new GameInstance();
+    $player = new Player();
+    $pseudo = $player->username;
+
+
+    ?>
+    <?php
+    include('includes/header.php');
+    ?>
+    <?php
+    $toastHandler = new ToastHandler();
+    $toastHandler->afficherToasts();
+    ?>
+    <section class="section">
+        <div class="title-section">
+            <img src="animation/ventilateur.svg" alt="ventilator" class="icon">
+            <h1 class="title">The chifoumi game</h1>
+            <img src="animation/ventilateur.svg" alt="ventilator" class="icon">
+        </div>
+        <div class="chifoumi-container">
+            <h2 class="title"><?php echo $_SESSION['pseudo']; ?>, edit your account</h2>
+            <form action="" method="post" class="form" onsubmit="this.action = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'edit.php' : 'edit'; return true;">
+                <div style="display: flex; gap:15px;">
+                    <div class="avatar-choice">Choose your avatar
+                        <input type="radio" id="samourai" name="avatar" value="https://zechifoumi.com/uploads/avatar/samourai.svg" checked />
+                        <label class="avatar-label" for="samourai">
+                            <img src="https://zechifoumi.com/uploads/avatar/samourai.svg">
+                            <div>Samourai</div>
+                        </label>
+                    </div>
+                    <div class="avatar-choice">
+                        <input type="radio" id="samourai-2" name="avatar" value="https://zechifoumi.com/uploads/avatar/samourai-2.svg" />
+                        <label class="avatar-label" for="samourai-2">
+                            <img src="https://zechifoumi.com/uploads/avatar/samourai-2.svg">
+                            <div>Samourai 2</div>
+                        </label>
+                    </div>
+                </div>
+                <div class="input-container">
+                    <div class="inputBox">
+                        <input class="input-text" id="pseudo" type="text" name="pseudo" value="<?php echo $_SESSION['pseudo']; ?>" minlength="2" maxlength="10" required>
+                        <label for="pseudo">Pseudo</label>
+                    </div>
+                    <div class="inputBox">
+                        <input class="input-text" id="email" type="email" name="email" value="<?php echo $_SESSION['email']; ?>" required>
+                        <label for="pseudo">Email</label>
+                    </div>
+                    <div class="inputBox">
+                        <input class="input-text" type="password" id="password" name="password" placeholder="New password">
+                        <label for="pseudo">Password</label>
+                        <button type="button" class="field-button" onclick="showPassword('password', 'eye-icon')">
+                            <i id="eye-icon" class="fa-regular fa-eye-slash"></i>
+                        </button>
+                    </div>
+                    <div class="inputBox">
+                        <input class="input-text" type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your new password">
+                        <label for="pseudo">Confirm password</label>
+                        <button type="button" class="field-button" onclick="showPassword('confirm_password', 'eye-icon-confirm')">
+                            <i id="eye-icon-confirm" class="fa-regular fa-eye-slash"></i>
+                        </button>
+                    </div>
+                    <?php if (!empty($message) && $class === "loose") : ?>
+                        <div class="loose" role="alert">
+                            <strong class="font-bold">Error !</strong>
+                            <span><?php echo $message; ?></span>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <button type="submit" class="button">Update change</button>
+            </form>
+            <form action="delete_account" method="post" class="loose deleteForm">
+                <h4 class="font-bold">Danger zone</h4>
+                <input type="hidden" name="user_id" value='<?= $_SESSION['user_id'] ?>'>
+                <button type="button" class="button" onclick="confirmDelete(<?= $_SESSION['user_id'] ?>, 'Do you really want to delete your account?')">Delete my account</button>
+            </form>
+        </div>
+    </section>
+    <?php
+    include('includes/footer.php');
+    ?>
