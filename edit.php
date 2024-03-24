@@ -97,6 +97,7 @@ if (!isLoggedIn()) {
     <link href="font/font.css" rel="stylesheet" />
     <link rel="icon" type="image/svg" href="animation\ventilateur.svg" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <script src="javascript/functions.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
@@ -144,10 +145,16 @@ if (!isLoggedIn()) {
                         <div class="inputBox">
                             <input class="input-text" type="password" id="password" name="password" placeholder="New password">
                             <label for="pseudo">Password</label>
+                            <button type="button" class="field-button" onclick="showPassword('password', 'eye-icon')">
+                                <i id="eye-icon" class="fa-regular fa-eye-slash"></i>
+                            </button>
                         </div>
                         <div class="inputBox">
                             <input class="input-text" type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your new password">
                             <label for="pseudo">Confirm password</label>
+                            <button type="button" class="field-button" onclick="showPassword('confirm_password', 'eye-icon-confirm')">
+                                <i id="eye-icon-confirm" class="fa-regular fa-eye-slash"></i>
+                            </button>
                         </div>
                         <?php if (!empty($message) && $class === "loose") : ?>
                             <div class="loose" role="alert">
@@ -162,7 +169,7 @@ if (!isLoggedIn()) {
                 <form action="delete_account" method="post" class="loose deleteForm">
                     <h4 class="font-bold">Danger zone</h4>
                     <input type="hidden" name="user_id" value='<?= $_SESSION['user_id'] ?>'>
-                    <button type="button" class="button" onclick="confirmDelete(<?=$_SESSION['user_id']?>, 'Do you really want to delete your account?')">Delete my account</button>
+                    <button type="button" class="button" onclick="confirmDelete(<?= $_SESSION['user_id'] ?>, 'Do you really want to delete your account?')">Delete my account</button>
                 </form>
 
             </div>

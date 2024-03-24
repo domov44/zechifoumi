@@ -60,14 +60,16 @@ if (isLoggedIn()) {
                 <form method="post" class="form">
                     <div class="input-container">
                         <div class="inputBox">
-                            <input class="input-text" id="pseudo" type="text" name="pseudo" minlength="2" maxlength="10" required value="<?php echo isset($pseudo) ? htmlspecialchars($pseudo) : ''; ?>">
+                            <input class="input-text" id="pseudo" type="text" name="pseudo" minlength="2" maxlength="10" autocomplete="pseudo" required value="<?php echo isset($pseudo) ? htmlspecialchars($pseudo) : ''; ?>">
                             <label for="pseudo">Pseudo</label>
                         </div>
 
                         <div class="inputBox">
-                            <input class="input-text" id="password" type="password" name="password" required value="<?php echo isset($password) ? htmlspecialchars($password) : ''; ?>">
+                            <input class="input-text" id="password" type="password" name="password" autocomplete="password" required value="<?php echo isset($password) ? htmlspecialchars($password) : ''; ?>">
                             <label for="password">Password</label>
-                            <button type="button" id="show-password" class="field-button" onclick=showpassword()><i id="eye-icon" class="fa-regular fa-eye-slash"></i></button>
+                            <button type="button" id="show-password" class="field-button" onclick="showPassword('password', 'eye-icon')">
+                                <i id="eye-icon" class="fa-regular fa-eye-slash"></i>
+                            </button>
                         </div>
                         <a class="lien" id="icon-alternate" href="forgot-password.php">Forgot you password?</a>
                         <?php if (!empty($message)) : ?>

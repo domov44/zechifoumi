@@ -1,6 +1,6 @@
-function showpassword() {
-    let field = document.getElementById('password');
-    let eyeIcon = document.getElementById('eye-icon');
+function showPassword(fieldId, eyeIconId) {
+    let field = document.getElementById(fieldId);
+    let eyeIcon = document.getElementById(eyeIconId);
 
     if (field.type === "password") {
         field.type = "text";
@@ -10,7 +10,6 @@ function showpassword() {
         eyeIcon.className = "fa-regular fa-eye-slash";
     }
 }
-
 
 
 function afficherToast(contenu, type) {
