@@ -34,9 +34,6 @@ require_once 'class/Score.php';
             </h5>
         </div>
         <a class="lien" href="edit.php">Edit account</a>
-        <form method="post" action="" onsubmit="this.action = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'logout.php' : 'logout'; return true;">
-            <button class="lien" type="submit" name="logout">Logout ?</button>
-        </form>
         <p class="scoring <?php echo isset($classeCSS) ? $classeCSS : 'egalite'; ?>">Score : <?php echo $userScore ?> - <?php echo $computerScore ?></p>
         <p>Bestwinstreak : <?php echo '🔥' . $_SESSION["bestwinstreak"] . '🔥'; ?> </p>
         <p>Your rank : <?php
@@ -49,5 +46,8 @@ require_once 'class/Score.php';
         <button class="button" onclick="window.location='leaderboard.php'">Leaderboard 🏆</button>
         <p class="<?php echo isset($_SESSION['winstreak']) && $_SESSION['winstreak'] > 1 ? 'winstreak visible' : 'winstreak'; ?>">🔥<?php echo isset($_SESSION['winstreak']) ? $_SESSION['winstreak'] : 0; ?> winstreak🔥
         </p>
+        <form method="post" action="" onsubmit="this.action = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'logout.php' : 'logout'; return true;">
+            <button class="lien" type="submit" name="logout">Logout ?</button>
+        </form>
     </div>
 </header>

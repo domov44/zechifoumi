@@ -18,6 +18,9 @@ class ToastHandler
             'creation_compte_echoue' => array('error', 'Your account has not been created'),
             'deconnexion_reussie' => array('success', 'You have been logged out, see you soon'),
             'deconnexion_echoue' => array('error', 'You have not been logged out'),
+            'deconnexion_reussie' => array('success', 'You have been logged out, see you soon'),
+            'current_account_delete_success' => array('success', 'Your account was deleted'),
+            'current_account_delete_fail' => array('error', 'Error when trying to delete your account'),
         );
     }
 

@@ -2,22 +2,39 @@
 require_once('authentification/auth.php');
 require_once('authentification/session.php');
 require_once 'class/ToastHandler.php';
+require_once('authentification/db.php');
 
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $pseudo = $_POST['pseudo'];
-    $password = $_POST['password'];
+    // $email = $_POST['email'];
+    // $conn = connectDB(); 
 
-    if (authenticateUser($pseudo, $password)) {
-        $_SESSION['connexion_reussie'] = true;
+    // if ($conn) {
+    //     $query = "SELECT * FROM user WHERE email = '$email'";
+    //     $result = $conn->query($query);
 
-        header("Location: index.php");
-        exit();
-    } else {
-        $_SESSION['connexion_echoue'] = true;
-        $message = "Incorrect username or password. Please check your login credentials and try again.";
-    }
+    //     if ($result && $result->num_rows > 0) {
+    //         ini_set('SMTP', 'smtp.example.com');
+    //         ini_set('smtp_port', 587);
+
+    //         $resetLink = 'https://example.com/reset-password.php?email=' . urlencode($email);
+    //         $subject = 'Réinitialisation du mot de passe';
+    //         $body = 'Pour réinitialiser votre mot de passe, cliquez sur le lien suivant : ' . $resetLink;
+    //         $headers = 'From: your@example.com';
+    //         if (mail($email, $subject, $body, $headers)) {
+    //             $message = 'Un e-mail de réinitialisation du mot de passe a été envoyé à votre adresse e-mail.';
+    //         } else {
+    //             $message = 'Une erreur s\'est produite lors de l\'envoi de l\'e-mail. Veuillez réessayer plus tard.';
+    //         }
+    //     } else {
+    //         $message = 'Cette adresse e-mail n\'existe pas dans notre système.';
+    //     }
+
+    //     $conn->close();
+    // } else {
+    //     $message = 'La connexion à la base de données a échoué. Veuillez réessayer plus tard.';
+    // }
 }
 
 if (isLoggedIn()) {
@@ -25,6 +42,7 @@ if (isLoggedIn()) {
     exit();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -56,20 +74,13 @@ if (isLoggedIn()) {
                 <img src="animation/ventilateur.svg" alt="ventilator" class="icon">
             </div>
             <div class="chifoumi-container">
-                <h2 class="title">Login</h2>
+                <h2 class="title">Reset your password</h2>
                 <form method="post" class="form">
                     <div class="input-container">
                         <div class="inputBox">
-                            <input class="input-text" id="pseudo" type="text" name="pseudo" minlength="2" maxlength="10" required value="<?php echo isset($pseudo) ? htmlspecialchars($pseudo) : ''; ?>">
-                            <label for="pseudo">Pseudo</label>
+                            <input class="input-text" id="email" type="email" name="email" minlength="2" required>
+                            <label for="pseudo">Email</label>
                         </div>
-
-                        <div class="inputBox">
-                            <input class="input-text" id="password" type="password" name="password" required value="<?php echo isset($password) ? htmlspecialchars($password) : ''; ?>">
-                            <label for="password">Password</label>
-                            <button type="button" id="show-password" class="field-button" onclick=showpassword()><i id="eye-icon" class="fa-regular fa-eye-slash"></i></button>
-                        </div>
-                        <a class="lien" id="icon-alternate" href="forgot-password.php">Forgot you password?</a>
                         <?php if (!empty($message)) : ?>
                             <div class="loose" role="alert">
                                 <strong class="font-bold">Error!</strong>
@@ -77,9 +88,9 @@ if (isLoggedIn()) {
                             </div>
                         <?php endif; ?>
                     </div>
-                    <button type="submit" class="button">Login</button>
-                    <a class="button-secondary" href="signup.php">Create account</a>
+                    <button type="submit" class="button">Send the email</button>
                 </form>
+                <a class="lien" id="icon-alternate" href="login.php">Back to login page</a>
             </div>
             </div>
         </section>

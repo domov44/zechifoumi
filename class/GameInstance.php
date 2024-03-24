@@ -1,7 +1,7 @@
 <?php
 require_once 'choice.php';
 require_once 'Player.php';
-require_once 'CreateDB.php';
+require_once 'authentification/db.php';
 
 class GameInstance
 {
@@ -28,43 +28,44 @@ class GameInstance
         $nemesisComputer = $computerChoice->nemesisValue;
 
         $this->result = $this->compareChoice($this->valueComputerChoice, $userchoice, $nemesisComputer);
+
+        $this->updateLeaderboard($_SESSION['pseudo'], $_SESSION['bestwinstreak']);
     }
 
     public function getLeaderboard()
     {
-        $filename = "storage/data.json";
+        $conn = connectDB();
 
-        if (file_exists($filename)) {
-            $content = file_get_contents($filename);
-            $data = json_decode($content, true);
-        } else {
-            $data = array();
-            var_dump('tets');
-        }
+        $sql = "SELECT pseudo, bestwinstreak FROM user WHERE bestwinstreak > 0 ORDER BY bestwinstreak DESC";
+
+        $result = $conn->query($sql);
 
         $leaderboard = array();
+        $rank = 1;
 
-        foreach ($data as $key => $value) {
-            if (isset($value['bestwinstreak'])) {
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
                 $leaderboard[] = array(
-                    'rank' => 0,
-                    'pseudo' => $value['pseudo'],
-                    'bestwinstreak' => $value['bestwinstreak']
+                    'rank' => $rank, 
+                    'pseudo' => $row['pseudo'],
+                    'bestwinstreak' => $row['bestwinstreak']
                 );
+                $rank++; 
             }
         }
 
-        usort($leaderboard, function ($a, $b) {
-            return $b['bestwinstreak'] - $a['bestwinstreak'];
-        });
-
-        $rank = 1;
-        foreach ($leaderboard as &$rankedPlayer) {
-            $rankedPlayer['rank'] = $rank;
-            $rank++;
-        }
+        $conn->close();
 
         return $leaderboard;
+    }
+
+    public function updateLeaderboard($pseudo, $bestwinstreak)
+    {
+        $conn = connectDB();
+        $sql = "UPDATE user SET bestwinstreak = $bestwinstreak WHERE pseudo = '$pseudo'";
+        $conn->query($sql);
+
+        $conn->close();
     }
 
     public function getPlayerRank($pseudo)

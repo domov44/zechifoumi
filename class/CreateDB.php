@@ -38,61 +38,8 @@ class CreateDB
         }
     }
 
-
-    private function updateJsonFile($pseudo, &$contentd)
-    {
-        $found = false;
-
-        foreach ($contentd as &$value) {
-            if ($value["pseudo"] === $pseudo) {
-                $value['user_score'] = $_SESSION['user_score'];
-                $value['computer_score'] = $_SESSION['computer_score'];
-                $value['winstreak'] = $_SESSION['winstreak'];
-                $value['bestwinstreak'] = max($value['bestwinstreak'], $_SESSION['winstreak']);
-                $found = true;
-                break;
-            }
-        }
-
-        if (!$found) {
-            $newData = array(
-                "pseudo" => $pseudo,
-                "user_score" => $_SESSION['user_score'],
-                "computer_score" => $_SESSION['computer_score'],
-                "winstreak" => $_SESSION['winstreak'],
-                "bestwinstreak" => 0
-            );
-            $contentd[] = $newData;
-        }
-
-        $filename = "storage/data.json";
-        file_put_contents($filename, json_encode($contentd));
-    }
-
     public function writeData($pseudo)
     {
-        $contentd = $this->createJsonFile();
-
         $this->UpdateMysql($pseudo);
-
-        $this->updateJsonFile($pseudo, $contentd);
-    }
-
-    public function createJsonFile()
-    {
-        if (!file_exists("storage")) {
-            mkdir("storage", 0777, true);
-        }
-
-        $filename = "storage/data.json";
-
-        if (file_exists($filename)) {
-            $content = file_get_contents($filename);
-            $contentd = json_decode($content, true);
-        } else {
-            $contentd = array();
-        }
-
-        return $contentd;
     }
 }

@@ -13,45 +13,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirm_password'];
 
-    if ($password === $confirmPassword) {
-        $passwordHash = password_hash($password, PASSWORD_BCRYPT);
+    // Vérifier si l'email existe déjà
+    $conn = connectDB();
+    $stmt_email = $conn->prepare("SELECT id FROM user WHERE email = ?");
+    $stmt_email->bind_param("s", $email);
+    $stmt_email->execute();
+    $result_email = $stmt_email->get_result();
+    if ($result_email->num_rows > 0) {
+        $message = "Email already exists. Please choose a different one.";
+        $class = "loose";
+    }
 
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $conn = connectDB();
+    // Vérifier si le pseudo existe déjà
+    $stmt_pseudo = $conn->prepare("SELECT id FROM user WHERE pseudo = ?");
+    $stmt_pseudo->bind_param("s", $pseudo);
+    $stmt_pseudo->execute();
+    $result_pseudo = $stmt_pseudo->get_result();
+    if ($result_pseudo->num_rows > 0) {
+        $message = "Pseudo already exists. Please choose a different one.";
+        $class = "loose";
+    }
 
-            $stmt = $conn->prepare("INSERT INTO user (pseudo, email, password) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $pseudo, $email, $passwordHash);
+    // Fermer les requêtes préparées
+    $stmt_email->close();
+    $stmt_pseudo->close();
 
-            if ($stmt->execute()) {
-                if (authenticateUser($pseudo, $password)) {
-                    session_start();
-                    $_SESSION['creation_compte_reussie'] = true;
-                    $_SESSION['pseudo'] = $pseudo;
-                    header("Location: index.php");
-                    exit();
+    if ($message === "") {
+        // Si ni l'email ni le pseudo n'existe, alors procéder à l'insertion
+        if ($password === $confirmPassword) {
+            $passwordHash = password_hash($password, PASSWORD_BCRYPT);
+
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $stmt_insert = $conn->prepare("INSERT INTO user (pseudo, email, password) VALUES (?, ?, ?)");
+                $stmt_insert->bind_param("sss", $pseudo, $email, $passwordHash);
+
+                if ($stmt_insert->execute()) {
+                    if (authenticateUser($pseudo, $password)) {
+                        session_start();
+                        $_SESSION['creation_compte_reussie'] = true;
+                        $_SESSION['pseudo'] = $pseudo;
+                        header("Location: index.php");
+                        exit();
+                    } else {
+                        $message = "Error during login after registration.";
+                        $class = "loose";
+                    }
                 } else {
-                    $message = "Error during login after registration.";
+                    $message = "Error during registration. Please try again later.";
+                    $_SESSION['creation_compte_echoue'] = true;
+                    error_log("Error during registration: " . $stmt_insert->error);
                     $class = "loose";
                 }
+
+                $stmt_insert->close();
             } else {
-                $message = "Error during registration. Please try again later.";
+                $message = "Invalid email address. Please provide a valid email address.";
                 $_SESSION['creation_compte_echoue'] = true;
-                error_log("Error during registration: " . $stmt->error);
                 $class = "loose";
             }
-
-            $stmt->close();
-            $conn->close();
         } else {
-            $message = "Invalid email address. Please provide a valid email address.";
+            $message = "Passwords do not match. Please enter them again.";
             $_SESSION['creation_compte_echoue'] = true;
             $class = "loose";
         }
-    } else {
-        $message = "Passwords do not match. Please enter them again.";
-        $_SESSION['creation_compte_echoue'] = true;
-        $class = "loose";
     }
+
+    $conn->close();
 }
 
 if (isLoggedIn()) {
@@ -93,19 +120,19 @@ if (isLoggedIn()) {
                 <form method="post" class="form">
                     <div class="input-container">
                         <div class="inputBox">
-                            <input class="input-text" id="pseudo" type="text" name="pseudo" minlength="2" maxlength="10" required>
+                            <input class="input-text" id="pseudo" type="text" name="pseudo" minlength="2" maxlength="10" required value="<?php echo isset($pseudo) ? htmlspecialchars($pseudo) : ''; ?>">
                             <label for="pseudo">Pseudo</label>
                         </div>
                         <div class="inputBox">
-                            <input class="input-text" id="email" type="email" name="email" required>
+                            <input class="input-text" id="email" type="email" name="email" required value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>">
                             <label for="pseudo">Email</label>
                         </div>
                         <div class="inputBox">
-                            <input class="input-text" type="password" id="password" name="password" required>
+                            <input class="input-text" type="password" id="password" name="password" required value="<?php echo isset($password) ? htmlspecialchars($password) : ''; ?>">
                             <label for="pseudo">Password</label>
                         </div>
                         <div class="inputBox">
-                            <input class="input-text" type="password" id="confirm_password" name="confirm_password" required>
+                            <input class="input-text" type="password" id="confirm_password" name="confirm_password" required value="<?php echo isset($confirmPassword) ? htmlspecialchars($confirmPassword) : ''; ?>">
                             <label for="pseudo">Confirm password</label>
                         </div>
                         <?php if (!empty($message) && $class === "loose") : ?>

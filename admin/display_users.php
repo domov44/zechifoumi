@@ -41,7 +41,7 @@ if (isAdmin()) {
                             <button class='button-secondary' type='button' style='width:fit-content' onclick='toggleModifyPopup(<?= $row['id'] ?>)'><i class='fas fa-pencil-alt'></i></button>
                             <form action='delete_user' method='post' class='deleteForm'>
                                 <input type='hidden' name='user_id' value='<?= $row['id'] ?>'>
-                                <button class='button' type='button' onclick='confirmDelete(<?= $row['id'] ?>)'><i class='far fa-trash-alt'></i></button>
+                                <button class='button' type='button' onclick="confirmDelete(<?= $row['id'] ?>, 'Do you really want to delete this account?')"><i class='far fa-trash-alt'></i></button>
                             </form>
                         </div>
                     </td>

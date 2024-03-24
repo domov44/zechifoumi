@@ -11,8 +11,6 @@ $game = new GameInstance();
 $player = new Player();
 $_SESSION["game"] = $game;
 
-// Obtenez le leaderboard à partir de la méthode getLeaderboard()
-$leaderboard = $game->getLeaderboard();
 ?>
 
 
@@ -41,6 +39,7 @@ $leaderboard = $game->getLeaderboard();
             <div class="chifoumi-container">
                 <div class="leaderboard">
                     <?php
+                    // Obtenez le leaderboard à partir de la méthode getLeaderboardFromDB() au lieu de getLeaderboard()
                     $leaderboard = $game->getLeaderboard();
 
                     foreach ($leaderboard as $rankedPlayer) {

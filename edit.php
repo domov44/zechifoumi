@@ -159,6 +159,12 @@ if (!isLoggedIn()) {
                     <button type="submit" class="button">Update change</button>
                     <a class="button-secondary" href="index.php">Cancel</a>
                 </form>
+                <form action="delete_account" method="post" class="loose deleteForm">
+                    <h4 class="font-bold">Danger zone</h4>
+                    <input type="hidden" name="user_id" value='<?= $_SESSION['user_id'] ?>'>
+                    <button type="button" class="button" onclick="confirmDelete(<?=$_SESSION['user_id']?>, 'Do you really want to delete your account?')">Delete my account</button>
+                </form>
+
             </div>
         </section>
         <?php

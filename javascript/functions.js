@@ -128,8 +128,8 @@ function hideModal(overlay, modal) {
 }
 
 
-function confirmDelete(userId) {
-    showModal('Deletion Confirmation', 'Are you sure you want to delete this user?', function (confirmed) {
+function confirmDelete(userId, confirmationText) {
+    showModal('Deletion Confirmation', confirmationText, function (confirmed) {
         if (confirmed) {
             document.querySelector('.deleteForm input[name="user_id"]').value = userId;
             document.querySelector('.deleteForm').submit();
