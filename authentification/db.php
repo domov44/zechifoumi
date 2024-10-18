@@ -1,12 +1,10 @@
 <?php
-define("DB_HOST", "localhost");
-define("DB_USER", "bfxr3414_adminsupreme");
-define("DB_PASSWORD", "AIo(Nw,*L=k,");
-define("DB_NAME", "bfxr3414_zechifoumi");
+require_once 'config.php';
+loadEnv(__DIR__ . '/../.env');
 
 function connectDB()
 {
-    $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+    $conn = new mysqli($_ENV['DB_HOST'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
 
     if ($conn->connect_error) {
         die("La connexion à la base de données a échoué: " . $conn->connect_error);
@@ -15,21 +13,4 @@ function connectDB()
     return $conn;
 }
 
-// local
-// <?php
-// define("DB_HOST", "localhost");
-// define("DB_USER", "root");
-// define("DB_PASSWORD", "");
-// define("DB_NAME", "zechifoumi");
-
-// function connectDB()
-// {
-//     $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
-//     if ($conn->connect_error) {
-//         die("La connexion à la base de données a échoué: " . $conn->connect_error);
-//     }
-
-//     return $conn;
-// }
-
+$conn = connectDB();

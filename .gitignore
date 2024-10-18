@@ -1,2 +1,2 @@
 .htaccess
-authentification/db-serv.php
+.env
