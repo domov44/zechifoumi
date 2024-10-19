@@ -4,11 +4,13 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once('authentification/auth.php');
 require_once('authentification/session.php');
+require_once 'authentification/config.php';
 require_once 'class/ToastHandler.php';
 require_once('authentification/db.php');
 require __DIR__ . '/PHPMailer/src/Exception.php';
 require __DIR__ . '/PHPMailer/src/PHPMailer.php';
 require __DIR__ . '/PHPMailer/src/SMTP.php';
+loadEnv(__DIR__ . '/.env');
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -16,37 +18,37 @@ use PHPMailer\PHPMailer\Exception;
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // $email = $_POST['email'];
+    $email = $_POST['email'];
 
-    // if (!empty($email)) {
-    //     $mail = new PHPMailer(true);
+    if (!empty($email)) {
+        $mail = new PHPMailer(true);
 
-    //     try {
-    //         $mail->isSMTP();
-    //         $mail->Host = 'smtp.gmail.com';
-    //         $mail->SMTPAuth = true;
-    //         $mail->Username = 'ronanscotet467@gmail.com';
-    //         $mail->Password = 'dubl fpze yuxh wbto';
-    //         $mail->SMTPSecure = 'tls';
-    //         $mail->Port = 587;
+        try {
+            $mail->isSMTP();
+            $mail->Host = $_ENV['SMTP_HOST'];
+            $mail->SMTPAuth = true;
+            $mail->Username = $_ENV['SMTP_USERNAME'];
+            $mail->Password = $_ENV['SMTP_PASSWORD'];
+            $mail->SMTPSecure = 'ssl';
+            $mail->Port = $_ENV['SMTP_PORT'];
 
-    //         $mail->setFrom('ronanscotet467@gmail.com', 'Support Chifoumi');
-    //         $mail->addAddress($email);
+            $mail->setFrom('contact@zechifoumi.com', 'Support Chifoumi');
+            $mail->addAddress($email);
 
-    //         $mail->isHTML(true);
-    //         $mail->Subject = 'Reset your password';
-    //         $mail->Body = 'Cliquez <a href="https://yourwebsite.com/reset-password?email=' . urlencode($email) . '">ici</a> pour réinitialiser votre mot de passe.';
-    //         $mail->AltBody = 'Cliquez sur le lien suivant pour réinitialiser votre mot de passe : https://yourwebsite.com/reset-password?email=' . urlencode($email);
+            $mail->isHTML(true);
+            $mail->Subject = 'Reset your password';
+            $mail->Body = 'Cliquez <a href="https://yourwebsite.com/reset-password?email=' . urlencode($email) . '">ici</a> pour réinitialiser votre mot de passe.';
+            $mail->AltBody = 'Cliquez sur le lien suivant pour réinitialiser votre mot de passe : https://yourwebsite.com/reset-password?email=' . urlencode($email);
 
-    //         $mail->send();
-    //         $_SESSION['mail_sent'] = true;
-    //     } catch (Exception $e) {
-    //         $_SESSION['mail_no_sent'] = true;
-    //         $message = "L'e-mail n'a pas pu être envoyé. Erreur: {$mail->ErrorInfo}";
-    //     }
-    // } else {
-    //     $message = 'Veuillez entrer une adresse e-mail valide.';
-    // }
+            $mail->send();
+            $_SESSION['mail_sent'] = true;
+        } catch (Exception $e) {
+            $_SESSION['mail_no_sent'] = true;
+            $message = "L'e-mail n'a pas pu être envoyé. Erreur: {$mail->ErrorInfo}";
+        }
+    } else {
+        $message = 'Veuillez entrer une adresse e-mail valide.';
+    }
 }
 
 if (isLoggedIn()) {
