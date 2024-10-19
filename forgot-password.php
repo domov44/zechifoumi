@@ -7,8 +7,8 @@ require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+use phpmailer\src\PHPMailer;
+use phpmailer\src\Exception;
 
 $message = '';
 
