@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->SMTPAuth = true;
             $mail->Username = $_ENV['SMTP_USERNAME'];
             $mail->Password = $_ENV['SMTP_PASSWORD'];
-            $mail->SMTPSecure = 'ssl';
+            $mail->SMTPSecure = 'tls';
             $mail->Port = $_ENV['SMTP_PORT'];
 
             $mail->setFrom('contact@zechifoumi.com', 'Support Chifoumi');
