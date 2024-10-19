@@ -3,37 +3,46 @@ require_once('authentification/auth.php');
 require_once('authentification/session.php');
 require_once 'class/ToastHandler.php';
 require_once('authentification/db.php');
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // $email = $_POST['email'];
-    // $conn = connectDB(); 
 
-    // if ($conn) {
-    //     $query = "SELECT * FROM user WHERE email = '$email'";
-    //     $result = $conn->query($query);
+    // if (!empty($email)) {
+    //     $mail = new PHPMailer(true);
 
-    //     if ($result && $result->num_rows > 0) {
-    //         ini_set('SMTP', 'smtp.example.com');
-    //         ini_set('smtp_port', 587);
+    //     try {
+    //         $mail->isSMTP();
+    //         $mail->Host = 'smtp.gmail.com';
+    //         $mail->SMTPAuth = true;
+    //         $mail->Username = 'ronanscotet467@gmail.com';
+    //         $mail->Password = 'dubl fpze yuxh wbto';
+    //         $mail->SMTPSecure = 'tls';
+    //         $mail->Port = 587;
 
-    //         $resetLink = 'https://example.com/reset-password.php?email=' . urlencode($email);
-    //         $subject = 'Réinitialisation du mot de passe';
-    //         $body = 'Pour réinitialiser votre mot de passe, cliquez sur le lien suivant : ' . $resetLink;
-    //         $headers = 'From: your@example.com';
-    //         if (mail($email, $subject, $body, $headers)) {
-    //             $message = 'Un e-mail de réinitialisation du mot de passe a été envoyé à votre adresse e-mail.';
-    //         } else {
-    //             $message = 'Une erreur s\'est produite lors de l\'envoi de l\'e-mail. Veuillez réessayer plus tard.';
-    //         }
-    //     } else {
-    //         $message = 'Cette adresse e-mail n\'existe pas dans notre système.';
+    //         $mail->setFrom('ronanscotet467@gmail.com', 'Support Chifoumi');
+    //         $mail->addAddress($email);
+
+    //         $mail->isHTML(true);
+    //         $mail->Subject = 'Reset your password';
+    //         $mail->Body = 'Cliquez <a href="https://yourwebsite.com/reset-password?email=' . urlencode($email) . '">ici</a> pour réinitialiser votre mot de passe.';
+    //         $mail->AltBody = 'Cliquez sur le lien suivant pour réinitialiser votre mot de passe : https://yourwebsite.com/reset-password?email=' . urlencode($email);
+
+    //         $mail->send();
+    //         $_SESSION['mail_sent'] = true;
+    //     } catch (Exception $e) {
+    //         $_SESSION['mail_no_sent'] = true;
+    //         $message = "L'e-mail n'a pas pu être envoyé. Erreur: {$mail->ErrorInfo}";
     //     }
-
-    //     $conn->close();
     // } else {
-    //     $message = 'La connexion à la base de données a échoué. Veuillez réessayer plus tard.';
+    //     $message = 'Veuillez entrer une adresse e-mail valide.';
     // }
 }
 
