@@ -24,13 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mail = new PHPMailer(true);
 
         try {
-            $mail->SMTPDebug = 2;
             $mail->isSMTP();
             $mail->Host = $_ENV['SMTP_HOST'];
             $mail->SMTPAuth = true;
             $mail->Username = $_ENV['SMTP_USERNAME'];
             $mail->Password = $_ENV['SMTP_PASSWORD'];
-            $mail->SMTPSecure = 'tls';
+            $mail->SMTPSecure = 'ssl';
             $mail->Port = $_ENV['SMTP_PORT'];
 
             $mail->setFrom('contact@zechifoumi.com', 'Support Chifoumi');
@@ -38,8 +37,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $mail->isHTML(true);
             $mail->Subject = 'Reset your password';
-            $mail->Body = 'Cliquez <a href="https://yourwebsite.com/reset-password?email=' . urlencode($email) . '">ici</a> pour réinitialiser votre mot de passe.';
-            $mail->AltBody = 'Cliquez sur le lien suivant pour réinitialiser votre mot de passe : https://yourwebsite.com/reset-password?email=' . urlencode($email);
+            $mail->Body = '
+            Hi,
+            
+            We received a request to reset your password for your account associated with this email address. If you made this request, please follow the instructions below to reset your password:
+            
+            <a href="https://zechifoumi.com">Click here to reset your password</a>
+            
+            For security reasons, the link will expire in 24 hours. If you did not request a password reset, please ignore this email or contact our support team if you have any concerns.
+            
+            Thank you,<br>
+            Zechifoumi Support Team
+            ';
+
+            $mail->AltBody = '
+            Hi,
+            
+            We received a request to reset your password for your account associated with this email address. If you made this request, please follow the instructions below to reset your password:
+            
+            <a href="https://zechifoumi.com">Click here to reset your password</a>
+            
+            For security reasons, the link will expire in 24 hours. If you did not request a password reset, please ignore this email or contact our support team if you have any concerns.
+            
+            Thank you,<br>
+            Zechifoumi Support Team
+            ';
 
             $mail->send();
             $_SESSION['mail_sent'] = true;
