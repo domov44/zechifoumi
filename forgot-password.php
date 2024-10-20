@@ -18,56 +18,66 @@ use PHPMailer\PHPMailer\Exception;
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
+    $pseudo = $_POST['pseudo'];
 
-    if (!empty($email)) {
-        $mail = new PHPMailer(true);
+    if (!empty($pseudo)) {
+        $conn = connectDB();
 
-        try {
-            $mail->isSMTP();
-            $mail->Host = $_ENV['SMTP_HOST'];
-            $mail->SMTPAuth = true;
-            $mail->Username = $_ENV['SMTP_USERNAME'];
-            $mail->Password = $_ENV['SMTP_PASSWORD'];
-            $mail->SMTPSecure = 'ssl';
-            $mail->Port = $_ENV['SMTP_PORT'];
+        $sql = "SELECT email FROM user WHERE pseudo = '$pseudo'";
+        $result = $conn->query($sql);
 
-            $mail->setFrom('contact@zechifoumi.com', 'Support Chifoumi');
-            $mail->addAddress($email);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $email = $row['email'];
+            try {
+                $mail = new PHPMailer(true);
+                $mail->isSMTP();
+                $mail->Host = $_ENV['SMTP_HOST'];
+                $mail->SMTPAuth = true;
+                $mail->Username = $_ENV['SMTP_USERNAME'];
+                $mail->Password = $_ENV['SMTP_PASSWORD'];
+                $mail->SMTPSecure = 'ssl';
+                $mail->Port = $_ENV['SMTP_PORT'];
 
-            $mail->isHTML(true);
-            $mail->Subject = 'Reset your password';
-            $mail->Body = '
-            Hi,
-            
-            We received a request to reset your password for your account associated with this email address. If you made this request, please follow the instructions below to reset your password:
-            
-            <a href="https://zechifoumi.com">Click here to reset your password</a>
-            
-            For security reasons, the link will expire in 24 hours. If you did not request a password reset, please ignore this email or contact our support team if you have any concerns.
-            
-            Thank you,<br>
-            Zechifoumi Support Team
-            ';
+                $mail->setFrom('contact@zechifoumi.com', 'Support Chifoumi');
+                $mail->addAddress($email);
 
-            $mail->AltBody = '
-            Hi,
-            
-            We received a request to reset your password for your account associated with this email address. If you made this request, please follow the instructions below to reset your password:
-            
-            <a href="https://zechifoumi.com">Click here to reset your password</a>
-            
-            For security reasons, the link will expire in 24 hours. If you did not request a password reset, please ignore this email or contact our support team if you have any concerns.
-            
-            Thank you,<br>
-            Zechifoumi Support Team
-            ';
+                $mail->isHTML(true);
+                $mail->Subject = 'Reset your password';
+                $mail->Body = '
+                Hi,
+                
+                We received a request to reset your password for your account associated with this email address. If you made this request, please follow the instructions below to reset your password:
+                
+                <a href="https://zechifoumi.com">Click here to reset your password</a>
+                
+                For security reasons, the link will expire in 24 hours. If you did not request a password reset, please ignore this email or contact our support team if you have any concerns.
+                
+                Thank you,<br>
+                Zechifoumi Support Team
+                ';
 
-            $mail->send();
+                $mail->AltBody = '
+                Hi,
+                
+                We received a request to reset your password for your account associated with this email address. If you made this request, please follow the instructions below to reset your password:
+                
+                <a href="https://zechifoumi.com">Click here to reset your password</a>
+                
+                For security reasons, the link will expire in 24 hours. If you did not request a password reset, please ignore this email or contact our support team if you have any concerns.
+                
+                Thank you,<br>
+                Zechifoumi Support Team
+                ';
+
+                $mail->send();
+                $_SESSION['mail_sent'] = true;
+            } catch (Exception $e) {
+                $_SESSION['mail_no_sent'] = true;
+                $message = "L'e-mail n'a pas pu être envoyé. Erreur: {$mail->ErrorInfo}";
+            }
+        } else {
             $_SESSION['mail_sent'] = true;
-        } catch (Exception $e) {
-            $_SESSION['mail_no_sent'] = true;
-            $message = "L'e-mail n'a pas pu être envoyé. Erreur: {$mail->ErrorInfo}";
         }
     } else {
         $message = 'Veuillez entrer une adresse e-mail valide.';
@@ -115,8 +125,8 @@ if (isLoggedIn()) {
                 <form method="post" class="form">
                     <div class="input-container">
                         <div class="inputBox">
-                            <input class="input-text" id="email" type="email" name="email" minlength="2" required>
-                            <label for="pseudo">Email</label>
+                            <input class="input-text" id="pseudo" type="text" name="pseudo" minlength="2" required>
+                            <label for="pseudo">Your pseudo</label>
                         </div>
                         <?php if (!empty($message)) : ?>
                             <div class="loose" role="alert">
@@ -125,7 +135,7 @@ if (isLoggedIn()) {
                             </div>
                         <?php endif; ?>
                     </div>
-                    <button type="submit" class="button">Send the email</button>
+                    <button type="submit" class="button">Send the reset email</button>
                 </form>
                 <a class="lien" id="icon-alternate" href="login.php">Back to login page</a>
             </div>
