@@ -20,13 +20,11 @@ $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pseudo = $_POST['pseudo'];
 
-    // Vérification si le pseudo n'est pas vide
     if (!empty($pseudo)) {
         $conn = connectDB();
 
-        // Préparer la requête pour éviter l'injection SQL
         $stmt = $conn->prepare("SELECT email FROM user WHERE pseudo = ?");
-        $stmt->bind_param('s', $pseudo);  // 's' pour string
+        $stmt->bind_param('s', $pseudo); 
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -34,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $row = $result->fetch_assoc();
             $email = $row['email'];
 
-            // PHPMailer pour l'envoi d'email sécurisé
             try {
                 $mail = new PHPMailer(true);
                 $mail->isSMTP();
@@ -42,13 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mail->SMTPAuth = true;
                 $mail->Username = $_ENV['SMTP_USERNAME'];
                 $mail->Password = $_ENV['SMTP_PASSWORD'];
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Utilisation d'une constante sécurisée
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
                 $mail->Port = $_ENV['SMTP_PORT'];
 
                 $mail->setFrom('contact@zechifoumi.com', 'Support Chifoumi');
                 $mail->addAddress($email);
 
-                // Configuration du contenu de l'email
                 $mail->isHTML(true);
                 $mail->Subject = 'Reset your password';
                 $mail->Body = '
