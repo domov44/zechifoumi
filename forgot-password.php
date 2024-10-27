@@ -16,7 +16,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 $message = '';
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pseudo = $_POST['pseudo'];
 
@@ -24,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn = connectDB();
 
         $stmt = $conn->prepare("SELECT email FROM user WHERE pseudo = ?");
-        $stmt->bind_param('s', $pseudo); 
+        $stmt->bind_param('s', $pseudo);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -45,6 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mail->setFrom('contact@zechifoumi.com', 'Support Chifoumi');
                 $mail->addAddress($email);
 
+                $reset_token = bin2hex(random_bytes(16));
+                date_default_timezone_set('Europe/Paris');
+                $expire_reset_token = date('Y-m-d H:i:s', strtotime('+1 hour'));
                 $mail->isHTML(true);
                 $mail->Subject = 'Reset your password';
                 $mail->Body = '
@@ -53,9 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     We received a request to reset your password for your account associated with this email address. 
                     If you made this request, please follow the instructions below to reset your password:
                     
-                    <a href="https://zechifoumi.com/reset-password?token=UNIQUE_TOKEN">Click here to reset your password</a>
+                    <a href="https://zechifoumi.com/reset-password?token=' . $reset_token . '">Click here to reset your password</a>
                     
-                    For security reasons, the link will expire in 24 hours. If you did not request a password reset, 
+                    For security reasons, the link will expire in 1 hour. If you did not request a password reset, 
                     please ignore this email or contact our support team if you have any concerns.
                     
                     Thank you,<br>
@@ -68,15 +70,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     We received a request to reset your password for your account associated with this email address. 
                     If you made this request, please follow the instructions below to reset your password:
                     
-                    Visit the following link to reset your password: https://zechifoumi.com/reset-password?token=UNIQUE_TOKEN
+                    Visit the following link to reset your password: https://zechifoumi.com/reset-password?token=' . $reset_token . '
                     
-                    For security reasons, the link will expire in 24 hours. If you did not request a password reset, 
+                    For security reasons, the link will expire in 1 hour. If you did not request a password reset, 
                     please ignore this email or contact our support team if you have any concerns.
                     
                     Thank you, Zechifoumi Support Team
                 ';
 
                 $mail->send();
+
+                $stmt = $conn->prepare("UPDATE user SET reset_token = ?, expire_reset_token = ? WHERE email = ?");
+                $stmt->bind_param("sss", $reset_token, $expire_reset_token, $email);
+                $stmt->execute();
+
                 $_SESSION['mail_sent'] = true;
             } catch (Exception $e) {
                 $_SESSION['mail_no_sent'] = true;

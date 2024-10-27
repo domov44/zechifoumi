@@ -23,6 +23,8 @@ class ToastHandler
             'current_account_delete_fail' => array('error', 'Error when trying to delete your account'),
             'mail_sent' => array('success', 'An reset email was sent to your mail adress'),
             'mail_no_sent' => array('error', 'The email can not be sent'),
+            'reset_password_success' => array('success', 'Your password have been changed'),
+            'reset_password_fail' => array('error', 'Your password has not been changed'),
         );
     }
 

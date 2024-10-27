@@ -12,8 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirm_password'];
-
-    // Vérifier si l'email existe déjà
+    
     $conn = connectDB();
     $stmt_email = $conn->prepare("SELECT id FROM user WHERE email = ?");
     $stmt_email->bind_param("s", $email);
